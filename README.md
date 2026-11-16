@@ -11,7 +11,6 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/tianhaogutum/mediawrench/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/tianhaogutum/mediawrench/ci.yml?branch=main&label=CI" alt="CI status"></a>
   <a href="https://pypi.org/project/mediawrench/"><img src="https://img.shields.io/pypi/v/mediawrench" alt="PyPI version"></a>
   <a href="https://pypi.org/project/mediawrench/"><img src="https://img.shields.io/pypi/pyversions/mediawrench" alt="Python versions"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/tianhaogutum/mediawrench" alt="License: MIT"></a>
