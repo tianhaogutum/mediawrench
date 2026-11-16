@@ -1,0 +1,8 @@
+{
+  "words": [
+    {"word": "Hello", "start": 1, "end": 2},
+    {"word": "both", "start": 2.5, "end": 3.5},
+    {"word": "reply", "start": 4.5, "end": 5},
+    {"word": "outside", "start": 5.5, "end": 6}
+  ]
+}

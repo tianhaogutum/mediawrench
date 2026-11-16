@@ -1,0 +1,7 @@
+{
+  "keep": [{"from": 1, "to": 4}, 6],
+  "drop": [3],
+  "padding": 0.1,
+  "duration": 10,
+  "labels": {"1": "开场", "2": "Answer, first", "4": "Answer, second", "6": "再见"}
+}

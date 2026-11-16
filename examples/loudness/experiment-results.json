@@ -1,0 +1,155 @@
+{
+  "experiment": "Trust requested two-pass targets versus independently measure the encoded artifact",
+  "ffmpeg_version": "ffmpeg version 7.0.2-static https://johnvansickle.com/ffmpeg/  Copyright (c) 2000-2024 the FFmpeg developers",
+  "baseline": "A target-trusting workflow accepts every successfully encoded candidate; no final-file gate.",
+  "cases": [
+    {
+      "case": "modulated",
+      "profile": {
+        "target_i": -16,
+        "target_tp": -1.5,
+        "tolerance": 0.5,
+        "target_lra": 11.0
+      },
+      "status": "PASS",
+      "input_i": "-30.15",
+      "input_tp": "-23.39",
+      "mode": "linear",
+      "filter_reported_output_i": "-16.07",
+      "final_i": "-16.00",
+      "final_tp": "-9.24",
+      "checks": {
+        "integrated_lufs": -16.0,
+        "true_peak_dbtp": -9.24,
+        "lufs_error": 0.0,
+        "lufs_pass": true,
+        "peak_pass": true,
+        "duration_pass": true,
+        "channels_pass": true
+      },
+      "published": true
+    },
+    {
+      "case": "clipping",
+      "profile": {
+        "target_i": -16,
+        "target_tp": -1.5,
+        "tolerance": 0.5,
+        "target_lra": 11.0
+      },
+      "status": "PASS",
+      "input_i": "-2.05",
+      "input_tp": "0.06",
+      "mode": "dynamic",
+      "filter_reported_output_i": "-15.95",
+      "final_i": "-15.95",
+      "final_tp": "-13.84",
+      "checks": {
+        "integrated_lufs": -15.95,
+        "true_peak_dbtp": -13.84,
+        "lufs_error": 0.05,
+        "lufs_pass": true,
+        "peak_pass": true,
+        "duration_pass": true,
+        "channels_pass": true
+      },
+      "published": true
+    },
+    {
+      "case": "dynamic",
+      "profile": {
+        "target_i": -16,
+        "target_tp": -1.5,
+        "tolerance": 0.5,
+        "target_lra": 1
+      },
+      "status": "PASS",
+      "input_i": "-10.78",
+      "input_tp": "-6.94",
+      "mode": "dynamic",
+      "filter_reported_output_i": "-15.48",
+      "final_i": "-15.64",
+      "final_tp": "-7.40",
+      "checks": {
+        "integrated_lufs": -15.64,
+        "true_peak_dbtp": -7.4,
+        "lufs_error": 0.36,
+        "lufs_pass": true,
+        "peak_pass": true,
+        "duration_pass": true,
+        "channels_pass": true
+      },
+      "published": true
+    },
+    {
+      "case": "dynamic_strict",
+      "profile": {
+        "target_i": -16,
+        "target_tp": -1.5,
+        "tolerance": 0.1,
+        "target_lra": 1
+      },
+      "status": "FAIL",
+      "input_i": "-10.78",
+      "input_tp": "-6.94",
+      "mode": "dynamic",
+      "filter_reported_output_i": "-15.48",
+      "final_i": "-15.64",
+      "final_tp": "-7.40",
+      "checks": {
+        "integrated_lufs": -15.64,
+        "true_peak_dbtp": -7.4,
+        "lufs_error": 0.36,
+        "lufs_pass": false,
+        "peak_pass": true,
+        "duration_pass": true,
+        "channels_pass": true
+      },
+      "published": false
+    },
+    {
+      "case": "tight_tolerance",
+      "profile": {
+        "target_i": -16.123,
+        "target_tp": -1.5,
+        "tolerance": 0.001,
+        "target_lra": 11.0
+      },
+      "status": "FAIL",
+      "input_i": "-30.15",
+      "input_tp": "-23.39",
+      "mode": "linear",
+      "filter_reported_output_i": "-16.19",
+      "final_i": "-16.12",
+      "final_tp": "-9.37",
+      "checks": {
+        "integrated_lufs": -16.12,
+        "true_peak_dbtp": -9.37,
+        "lufs_error": 0.003,
+        "lufs_pass": false,
+        "peak_pass": true,
+        "duration_pass": true,
+        "channels_pass": true
+      },
+      "published": false
+    }
+  ],
+  "deliberate_candidate": {
+    "change": "+6 dB after normalization, encoded as 24-bit PCM",
+    "baseline_target_claim": -16,
+    "status": "FAIL",
+    "checks": {
+      "integrated_lufs": -10.0,
+      "true_peak_dbtp": -3.24,
+      "lufs_error": 6.0,
+      "lufs_pass": false,
+      "peak_pass": true
+    }
+  },
+  "limitations": [
+    "Synthetic clips only; not a speech corpus or broadcast certification",
+    "FFmpeg loudnorm JSON rounds measurements to 0.01; very tight tolerances can reject",
+    "Dynamic fallback can miss targets; it is surfaced and the final gate still applies",
+    "True peak is a maximum ceiling, not an equality target"
+  ]
+}

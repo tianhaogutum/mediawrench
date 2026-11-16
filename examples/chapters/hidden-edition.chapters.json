@@ -1,0 +1,7 @@
+{
+  "matroska": {"edition_uid": 42, "edition_hidden": 1, "edition_default": 1},
+  "duration": 1.000001,
+  "chapters": [
+    {"start_time": 0.000001, "end_time": 1.000001, "title": "Hidden & chosen"}
+  ]
+}

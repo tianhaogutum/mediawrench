@@ -1,0 +1,6 @@
+{
+  "name": "brief",
+  "max_cps": 20,
+  "min_duration": 0.3,
+  "min_gap": 0
+}

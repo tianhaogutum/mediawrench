@@ -1,0 +1,13 @@
+;FFMETADATA1
+artist=Synthetic archive
+[CHAPTER]
+TIMEBASE=1001/30000
+START=0
+END=30
+title=Frame-rate chapter
+language=eng
+[CHAPTER]
+TIMEBASE=1001/30000
+START=30
+END=60
+title=章节\; A\=B \#2 \\ archive

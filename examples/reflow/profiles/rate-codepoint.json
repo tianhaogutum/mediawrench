@@ -1,0 +1,7 @@
+{
+  "name": "rate-codepoint",
+  "max_cps": 3,
+  "min_duration": 0,
+  "min_gap": 0,
+  "cps_mode": "codepoint"
+}

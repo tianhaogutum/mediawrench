@@ -1,0 +1,14 @@
+WEBVTT settings roundtrip
+
+NOTE synthetic presentation fixture
+No media or external service required.
+
+speaker-a
+00:01.000 --> 00:02.500 line:20% position:35%,line-left size:60% align:start
+Hello
+world
+
+speaker-b
+00:03.000 --> 00:04.000 vertical:rl line:-1,end position:80%,line-right size:40% align:end
+Hello
+world

@@ -1,0 +1,20 @@
+WEBVTT Local captions
+Kind: captions
+Language: en
+
+NOTE source
+Synthetic layout-preservation fixture
+
+seed
+00:00.000 --> 00:02.000 align:start position:20%
+Hello there
+
+NOTE between source displays
+Keep this exact value
+
+growth
+00:01.000 --> 00:03.000 align:start position:20%
+Hello there
+New line
+
+NOTE end

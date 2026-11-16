@@ -1,0 +1,29 @@
+{
+  "source_samples": 96000,
+  "chunk_count": 4,
+  "chunk_ranges": [
+    [
+      0,
+      28000
+    ],
+    [
+      20000,
+      60000
+    ],
+    [
+      52000,
+      92000
+    ],
+    [
+      84000,
+      96000
+    ]
+  ],
+  "input_segments": 5,
+  "output_segments": 4,
+  "removed_duplicates": 1,
+  "conflicts": 0,
+  "max_source_mapping_error_samples": 0,
+  "baseline_concatenation_extra_segments": 1,
+  "wall_seconds": 0.093695
+}

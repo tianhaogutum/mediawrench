@@ -1,0 +1,27 @@
+{
+  "time_unit": "seconds",
+  "text": " Hello both world. Lost 2014. words Keep this tail. No word timings.",
+  "segments": [
+    {
+      "start": 0.0, "end": 3.0, "text": " Hello both world.",
+      "words": [
+        {"word": " Hello", "start": 0.5, "end": 1.0},
+        {"word": " both", "start": 1.5, "end": 2.0},
+        {"word": " world.", "start": 2.2, "end": 2.7}
+      ]
+    },
+    {
+      "start": 3.0, "end": 5.0, "text": " Lost 2014. words",
+      "words": [
+        {"word": " Lost", "start": 3.2, "end": 3.6},
+        {"word": " 2014."},
+        {"word": " words", "start": 4.2, "end": 4.8}
+      ]
+    },
+    {
+      "start": 5.0, "end": 6.0, "text": " Keep this tail.",
+      "words": [{"word": " Keep", "start": 5.1, "end": 5.4}]
+    },
+    {"start": 6.0, "end": 7.0, "text": " No word timings."}
+  ]
+}

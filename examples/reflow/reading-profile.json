@@ -1,0 +1,7 @@
+{
+  "words": [
+    {"word": "One.", "start": 0, "end": 0.4},
+    {"word": " Two.", "start": 0.4, "end": 0.8},
+    {"word": " Three.", "start": 1, "end": 1.4}
+  ]
+}

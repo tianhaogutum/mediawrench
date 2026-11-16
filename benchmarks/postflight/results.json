@@ -1,0 +1,860 @@
+{
+  "python": "3.14.4",
+  "platform": "Linux-x86_64",
+  "tool_versions": {
+    "ffprobe": "ffprobe version 7.0.2-static https://johnvansickle.com/ffmpeg/  Copyright (c) 2007-2024 the FFmpeg developers",
+    "ffmpeg": "ffmpeg version 7.0.2-static https://johnvansickle.com/ffmpeg/  Copyright (c) 2000-2024 the FFmpeg developers"
+  },
+  "reproduce": [
+    "python",
+    "benchmarks/postflight/run.py"
+  ],
+  "method": "2s 96x64 12fps blue video + 16kHz 440Hz tone. All encoders exit 0; truncate healthy bytes afterward for truncation. Baseline accepts nonempty outputs with any AV header. Positive means rejection of a faulty output.",
+  "policy": {
+    "absolute_tolerance": 0.25,
+    "relative_tolerance": 0.02,
+    "full_decode": true
+  },
+  "rows": [
+    {
+      "case": "healthy",
+      "faulty": false,
+      "bytes": 13270,
+      "fixture_sha256": "c01b446aac99927c07626f55d79e40cfb07b9cbcbbb8768157cb17e4d88468bc",
+      "baseline": {
+        "encoder_exit": 0,
+        "nonempty": true,
+        "probe_exit": 0,
+        "stream_types": [
+          "video",
+          "audio"
+        ],
+        "counts_preserved": true,
+        "accepted": true
+      },
+      "postflight": {
+        "verdict": "PASS",
+        "coverage": "full",
+        "checks": [
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "source"
+          },
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "output"
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 32,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 1,
+            "frames": 32,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 28,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 1,
+            "frames": 28,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "source"
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "output"
+          },
+          {
+            "name": "audio_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "audio_decoded_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29,
+            "source_stream": 1,
+            "output_stream": 1
+          },
+          {
+            "name": "video_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "video_decoded_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29,
+            "source_stream": 0,
+            "output_stream": 0
+          },
+          {
+            "name": "container_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29
+          }
+        ]
+      }
+    },
+    {
+      "case": "audio_only",
+      "faulty": true,
+      "bytes": 12475,
+      "fixture_sha256": "0c34231187e761f98feb56e003bf6f9b13adfa39acf2e0e90cab995142cef0dd",
+      "baseline": {
+        "encoder_exit": 0,
+        "nonempty": true,
+        "probe_exit": 0,
+        "stream_types": [
+          "audio"
+        ],
+        "counts_preserved": false,
+        "accepted": true
+      },
+      "postflight": {
+        "verdict": "FAIL",
+        "coverage": "full",
+        "checks": [
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "source"
+          },
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 1,
+            "expected": "valid stream headers",
+            "role": "output"
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 32,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 1,
+            "frames": 32,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 28,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 0,
+            "frames": 28,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "source"
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 1,
+            "expected": ">0",
+            "role": "output"
+          },
+          {
+            "name": "audio_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "audio_decoded_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29,
+            "source_stream": 1,
+            "output_stream": 0
+          },
+          {
+            "name": "video_stream_count",
+            "status": "FAIL",
+            "actual": 0,
+            "expected": 1
+          },
+          {
+            "name": "container_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29
+          }
+        ]
+      }
+    },
+    {
+      "case": "truncated",
+      "faulty": true,
+      "bytes": 6635,
+      "fixture_sha256": "1aeadf41ab61025888f2422ed0cc68d2d97772bb438ff8f8069bac7dae56699a",
+      "baseline": {
+        "encoder_exit": 0,
+        "nonempty": true,
+        "probe_exit": 0,
+        "stream_types": [
+          "video",
+          "audio"
+        ],
+        "counts_preserved": true,
+        "accepted": true
+      },
+      "postflight": {
+        "verdict": "FAIL",
+        "coverage": "full",
+        "checks": [
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "source"
+          },
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "output"
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 32,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 1,
+            "frames": 32,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "video_decode",
+            "status": "FAIL",
+            "actual": "[matroska,webm @ 0x26424340] File ended prematurely",
+            "expected": "error-free decode",
+            "role": "output",
+            "stream_index": 0
+          },
+          {
+            "name": "audio_decode",
+            "status": "FAIL",
+            "actual": "[matroska,webm @ 0x39650340] File ended prematurely",
+            "expected": "error-free decode",
+            "role": "output",
+            "stream_index": 1
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "source"
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "output"
+          },
+          {
+            "name": "audio_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "audio_decoded_duration",
+            "status": "UNKNOWN",
+            "actual": null,
+            "expected": "positive known duration",
+            "source": 2.0,
+            "source_stream": 1,
+            "output_stream": 1
+          },
+          {
+            "name": "video_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "video_decoded_duration",
+            "status": "UNKNOWN",
+            "actual": null,
+            "expected": "positive known duration",
+            "source": 2.0,
+            "source_stream": 0,
+            "output_stream": 0
+          },
+          {
+            "name": "container_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29
+          }
+        ]
+      }
+    },
+    {
+      "case": "shortened",
+      "faulty": true,
+      "bytes": 3946,
+      "fixture_sha256": "2c0dd140bd024a458cae4d08dd77c73b47ff45e3772f521ca69ef7e8d0fbd5d3",
+      "baseline": {
+        "encoder_exit": 0,
+        "nonempty": true,
+        "probe_exit": 0,
+        "stream_types": [
+          "video",
+          "audio"
+        ],
+        "counts_preserved": true,
+        "accepted": true
+      },
+      "postflight": {
+        "verdict": "FAIL",
+        "coverage": "full",
+        "checks": [
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "source"
+          },
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "output"
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 32,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 1,
+            "frames": 32,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 6,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 0,
+            "frames": 6,
+            "decoded_bytes": 55296,
+            "start_seconds": 0.0,
+            "end_seconds": 0.5,
+            "duration_seconds": 0.5
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 7,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 1,
+            "frames": 7,
+            "decoded_bytes": 16000,
+            "start_seconds": 0.0,
+            "end_seconds": 0.5,
+            "duration_seconds": 0.5
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "source"
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "output"
+          },
+          {
+            "name": "audio_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "audio_decoded_duration",
+            "status": "FAIL",
+            "actual": 0.5,
+            "expected": 2.0,
+            "delta_seconds": 1.5,
+            "tolerance_seconds": 0.29,
+            "source_stream": 1,
+            "output_stream": 1
+          },
+          {
+            "name": "video_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "video_decoded_duration",
+            "status": "FAIL",
+            "actual": 0.5,
+            "expected": 2.0,
+            "delta_seconds": 1.5,
+            "tolerance_seconds": 0.29,
+            "source_stream": 0,
+            "output_stream": 0
+          },
+          {
+            "name": "container_duration",
+            "status": "FAIL",
+            "actual": 0.5,
+            "expected": 2.0,
+            "delta_seconds": 1.5,
+            "tolerance_seconds": 0.29
+          }
+        ]
+      }
+    },
+    {
+      "case": "zero_video",
+      "faulty": true,
+      "bytes": 12675,
+      "fixture_sha256": "9c8b2764c44c2f1e6e76d76d470079dfbfa1a692e71f90e2958bf4ef17dbf039",
+      "baseline": {
+        "encoder_exit": 0,
+        "nonempty": true,
+        "probe_exit": 0,
+        "stream_types": [
+          "video",
+          "audio"
+        ],
+        "counts_preserved": true,
+        "accepted": true
+      },
+      "postflight": {
+        "verdict": "FAIL",
+        "coverage": "full",
+        "checks": [
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "source"
+          },
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "output"
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 32,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 1,
+            "frames": 32,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "video_decode",
+            "status": "FAIL",
+            "actual": "Cannot determine format of input 0:0 after EOF\n[vf#0:0 @ 0x3c706a00] Task finished with error code: -1094995529 (Invalid data found when processing input)\n[vf#0:0 @ 0x3c706a00] Terminating thread with return code -1094995529 (Invalid data found when processing input)\n[vost#0:0/rawvideo @ 0x3c72ef80] Could not open encoder before EOF\n[vost#0:0/rawvideo @ 0x3c72ef80] Task finished with error code: -22 (Invalid argument)\n[vost#0:0/rawvideo @ 0x3c72ef80] Terminating thread with return code -22 (Invalid argument)\n[out#0/framehash @ 0x3c735f80] Nothing was written into output file, because at least one of its streams received no packets.",
+            "expected": "error-free decode",
+            "role": "output",
+            "stream_index": 0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 28,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 1,
+            "frames": 28,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "source"
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "output"
+          },
+          {
+            "name": "audio_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "audio_decoded_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29,
+            "source_stream": 1,
+            "output_stream": 1
+          },
+          {
+            "name": "video_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "video_decoded_duration",
+            "status": "UNKNOWN",
+            "actual": null,
+            "expected": "positive known duration",
+            "source": 2.0,
+            "source_stream": 0,
+            "output_stream": 0
+          },
+          {
+            "name": "container_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29
+          }
+        ]
+      }
+    },
+    {
+      "case": "short_audio",
+      "faulty": true,
+      "bytes": 4327,
+      "fixture_sha256": "1eca155a7f0d67102fe2971cba3ea637e581ac7ea25edf7a72cce4382fbc3507",
+      "baseline": {
+        "encoder_exit": 0,
+        "nonempty": true,
+        "probe_exit": 0,
+        "stream_types": [
+          "video",
+          "audio"
+        ],
+        "counts_preserved": true,
+        "accepted": true
+      },
+      "postflight": {
+        "verdict": "FAIL",
+        "coverage": "full",
+        "checks": [
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "source"
+          },
+          {
+            "name": "probe",
+            "status": "PASS",
+            "actual": 2,
+            "expected": "valid stream headers",
+            "role": "output"
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 32,
+            "expected": ">0",
+            "role": "source",
+            "stream_index": 1,
+            "frames": 32,
+            "decoded_bytes": 64000,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "video_decoded_frames",
+            "status": "PASS",
+            "actual": 24,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 0,
+            "frames": 24,
+            "decoded_bytes": 221184,
+            "start_seconds": 0.0,
+            "end_seconds": 2.0,
+            "duration_seconds": 2.0
+          },
+          {
+            "name": "audio_decoded_frames",
+            "status": "PASS",
+            "actual": 7,
+            "expected": ">0",
+            "role": "output",
+            "stream_index": 1,
+            "frames": 7,
+            "decoded_bytes": 16000,
+            "start_seconds": 0.0,
+            "end_seconds": 0.5,
+            "duration_seconds": 0.5
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "source"
+          },
+          {
+            "name": "av_stream_presence",
+            "status": "PASS",
+            "actual": 2,
+            "expected": ">0",
+            "role": "output"
+          },
+          {
+            "name": "audio_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "audio_decoded_duration",
+            "status": "FAIL",
+            "actual": 0.5,
+            "expected": 2.0,
+            "delta_seconds": 1.5,
+            "tolerance_seconds": 0.29,
+            "source_stream": 1,
+            "output_stream": 1
+          },
+          {
+            "name": "video_stream_count",
+            "status": "PASS",
+            "actual": 1,
+            "expected": 1
+          },
+          {
+            "name": "video_decoded_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29,
+            "source_stream": 0,
+            "output_stream": 0
+          },
+          {
+            "name": "container_duration",
+            "status": "PASS",
+            "actual": 2.0,
+            "expected": 2.0,
+            "delta_seconds": 0.0,
+            "tolerance_seconds": 0.29
+          }
+        ]
+      }
+    }
+  ],
+  "confusion": {
+    "baseline": {
+      "true_positive": 0,
+      "false_negative": 5,
+      "false_positive": 0,
+      "true_negative": 1
+    },
+    "header_counts": {
+      "true_positive": 1,
+      "false_negative": 4,
+      "false_positive": 0,
+      "true_negative": 1
+    },
+    "postflight": {
+      "true_positive": 5,
+      "false_negative": 0,
+      "false_positive": 0,
+      "true_negative": 1
+    }
+  },
+  "limitations": [
+    "Six synthetic cases, not population accuracy or a perceptual-quality benchmark.",
+    "Container IDs and hashes may vary between runs; verdicts and confusion table are the reproducibility target."
+  ]
+}

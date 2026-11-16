@@ -1,0 +1,38 @@
+{
+  "segments": [
+    {
+      "start": 0,
+      "end": 3,
+      "text": "你好世界",
+      "words": [
+        {
+          "word": "你好",
+          "start": 0,
+          "end": 1.5
+        },
+        {
+          "word": "世界",
+          "start": 1.5,
+          "end": 3
+        }
+      ]
+    },
+    {
+      "start": 3,
+      "end": 6,
+      "text": "é 👩🏽‍💻",
+      "words": [
+        {
+          "word": "é",
+          "start": 3,
+          "end": 4.5
+        },
+        {
+          "word": " 👩🏽‍💻",
+          "start": 4.5,
+          "end": 6
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic single-edition flag fixture; no UIDs or extra display metadata. -->
+<Chapters>
+  <EditionEntry>
+    <EditionFlagDefault>1</EditionFlagDefault>
+    <ChapterAtom>
+      <ChapterTimeStart>00:00:00.000001</ChapterTimeStart>
+      <ChapterTimeEnd>00:00:01.000001</ChapterTimeEnd>
+      <ChapterDisplay>
+        <ChapterString>Default &amp; chosen</ChapterString>
+        <ChapterLanguage>eng</ChapterLanguage>
+      </ChapterDisplay>
+    </ChapterAtom>
+  </EditionEntry>
+</Chapters>

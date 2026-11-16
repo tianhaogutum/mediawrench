@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic mixed hidden/visible chapters; edition flags are independent. -->
+<Chapters>
+  <EditionEntry>
+    <EditionUID>42</EditionUID>
+    <EditionFlagHidden>1</EditionFlagHidden>
+    <EditionFlagDefault>1</EditionFlagDefault>
+    <ChapterAtom>
+      <ChapterTimeStart>00:00:00</ChapterTimeStart>
+      <ChapterTimeEnd>00:00:01.000001</ChapterTimeEnd>
+      <ChapterUID>101</ChapterUID>
+      <ChapterFlagHidden>1</ChapterFlagHidden>
+      <ChapterFlagEnabled>1</ChapterFlagEnabled>
+      <ChapterDisplay>
+        <ChapterString>Hidden &amp; retained</ChapterString>
+        <ChapterLanguage>eng</ChapterLanguage>
+        <ChapLanguageIETF>en</ChapLanguageIETF>
+      </ChapterDisplay>
+      <ChapterDisplay>
+        <ChapterString>隐藏章节</ChapterString>
+        <ChapterLanguage>zho</ChapterLanguage>
+        <ChapLanguageIETF>zh-Hans</ChapLanguageIETF>
+      </ChapterDisplay>
+    </ChapterAtom>
+    <ChapterAtom>
+      <ChapterTimeStart>00:00:01.000001</ChapterTimeStart>
+      <ChapterTimeEnd>00:00:02</ChapterTimeEnd>
+      <ChapterFlagHidden>0</ChapterFlagHidden>
+      <ChapterDisplay>
+        <ChapterString>Visible</ChapterString>
+      </ChapterDisplay>
+    </ChapterAtom>
+  </EditionEntry>
+</Chapters>

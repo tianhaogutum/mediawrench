@@ -1,0 +1,13 @@
+WEBVTT Formatted local captions
+Language: en
+
+NOTE Synthetic formatting example
+
+seed
+00:00.000 --> 00:02.000 align:start
+<b>Hello there</b>
+
+growth
+00:01.000 --> 00:03.000 align:start
+<b>Hello there</b>
+New line

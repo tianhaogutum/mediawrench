@@ -1,0 +1,52 @@
+{
+  "python": "3.14.4",
+  "platform": "Linux",
+  "conformance": {
+    "expected": [
+      "B",
+      "AMBIGUOUS",
+      "UNKNOWN",
+      "A"
+    ],
+    "bridge": [
+      "B",
+      "AMBIGUOUS",
+      "UNKNOWN",
+      "A"
+    ],
+    "flawed_row_sum_argmax": [
+      "A",
+      "A",
+      "UNKNOWN",
+      "A"
+    ],
+    "bridge_correct": 4,
+    "baseline_correct": 2,
+    "cases": 4
+  },
+  "benchmark": {
+    "raw_rttm_rows": 2400,
+    "union_intervals": 2000,
+    "queries": 2000,
+    "repeats": 3,
+    "equal_overlap_results": true,
+    "seconds": {
+      "full_scan": [
+        0.2614231250008743,
+        0.25204165799914335,
+        0.25187125200136506
+      ],
+      "indexed": [
+        0.0025667589998192852,
+        0.00247123499866575,
+        0.0024486919992341427
+      ]
+    },
+    "median_seconds": {
+      "full_scan": 0.25204165799914335,
+      "indexed": 0.00247123499866575
+    },
+    "median_speedup": 101.99016205873733
+  },
+  "limits": "Synthetic known-policy conformance and lookup timing only; not human attribution accuracy. Index construction, normalization and export excluded from timing."
+}

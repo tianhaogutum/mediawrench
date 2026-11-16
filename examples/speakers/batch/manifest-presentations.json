@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "recording": "after-limit",
+      "channel": 1,
+      "asr": "late.json",
+      "rttm": "late.rttm",
+      "exports": [
+        "srt",
+        "markdown"
+      ]
+    },
+    {
+      "recording": "clipping",
+      "channel": 1,
+      "asr": "../clipping-asr.json",
+      "rttm": "../clipping.rttm",
+      "options": {
+        "rttm_offset_seconds": -2,
+        "rttm_drift_ppm": 1000000,
+        "recording_duration": 4,
+        "rttm_out_of_range_policy": "clip"
+      },
+      "exports": [
+        "markdown",
+        "srt"
+      ]
+    },
+    {
+      "recording": "room-b",
+      "channel": 1,
+      "asr": "room-b.json",
+      "rttm": "rooms.rttm",
+      "exports": [
+        "markdown"
+      ]
+    }
+  ]
+}

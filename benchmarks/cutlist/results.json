@@ -1,0 +1,24 @@
+{
+  "python": "3.14.4",
+  "pysubs2": "1.8.0",
+  "platform": "Linux-7.0.0-1017-gcp-x86_64-with-glibc2.43",
+  "syntheticExample": {
+    "plainSelectedCueImportCuts": 4,
+    "normalizedCuts": 3,
+    "plainSelectedCueImportExcludedOverlapMs": 1000,
+    "normalizedExcludedOverlapMs": 0
+  },
+  "scaling": {
+    "inputCues": 5000,
+    "finalCuts": 4000,
+    "outputBytes": 3607761,
+    "formatE2eSeconds": 0.086791,
+    "threeFormatsAgree": true,
+    "repeatsSerial": 3,
+    "naiveOverlapComparisons": 20000000,
+    "naiveOverlapMedianSeconds": 0.297635,
+    "sweepOverlapMedianSeconds": 0.001301,
+    "overlapMappingsEqual": true
+  },
+  "scope": "Synthetic workload; isolated provenance lookup timings, not a media cutting benchmark. No timing threshold asserted."
+}

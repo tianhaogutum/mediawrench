@@ -1,0 +1,6 @@
+{
+  "name": "patient",
+  "max_cps": 12,
+  "min_duration": 1,
+  "min_gap": 0.12
+}

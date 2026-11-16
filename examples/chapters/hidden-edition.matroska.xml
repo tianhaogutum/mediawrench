@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic hidden/default single-edition fixture with optional edition UID. -->
+<Chapters>
+  <EditionEntry>
+    <EditionUID>42</EditionUID>
+    <EditionFlagHidden>1</EditionFlagHidden>
+    <EditionFlagDefault>1</EditionFlagDefault>
+    <ChapterAtom>
+      <ChapterTimeStart>00:00:00.000001</ChapterTimeStart>
+      <ChapterTimeEnd>00:00:01.000001</ChapterTimeEnd>
+      <ChapterDisplay>
+        <ChapterString>Hidden &amp; chosen</ChapterString>
+        <ChapterLanguage>eng</ChapterLanguage>
+      </ChapterDisplay>
+    </ChapterAtom>
+  </EditionEntry>
+</Chapters>

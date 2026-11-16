@@ -1,0 +1,6 @@
+# Synthetic RTTM: scale 2, offset -2, recording duration 4 on the ASR clock.
+SPEAKER clipping 1 0 0.5 <NA> <NA> Early <NA> <NA>
+SPEAKER clipping 1 0.5 1.5 <NA> <NA> A <NA> <NA>
+SPEAKER clipping 1 1 0.5 <NA> <NA> A <NA> <NA>
+SPEAKER clipping 1 2 2 <NA> <NA> B <NA> <NA>
+SPEAKER clipping 1 4 1 <NA> <NA> Late <NA> <NA>

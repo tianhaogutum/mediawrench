@@ -1,0 +1,4 @@
+# Identical clocks, independent recordings. Channel 2 must also stay isolated.
+SPEAKER room-a 1 0 1 <NA> <NA> Alice <NA> <NA>
+SPEAKER room-b 1 0 1 <NA> <NA> Bob <NA> <NA>
+SPEAKER room-a 2 0 1 <NA> <NA> Carol <NA> <NA>

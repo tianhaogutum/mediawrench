@@ -1,0 +1,12 @@
+[
+  {"name":"two-line roll-up","kind":"rolling","cues":[[0,2000,"Hello there"],[1500,4000,"Hello there\nNew line"]],"expected":"Hello there New line","duplicates":2},
+  {"name":"identical overlapping cues","kind":"rolling","cues":[[0,2000,"Good morning"],[1000,3000,"Good morning"]],"expected":"Good morning","duplicates":2},
+  {"name":"three-line rollover","kind":"rolling","cues":[[0,2000,"Alpha one\nBeta two\nGamma three"],[1000,3000,"Beta two\nGamma three\nDelta four"],[2000,4000,"Gamma three\nDelta four\nEpsilon five"]],"expected":"Alpha one Beta two Gamma three Delta four Epsilon five","duplicates":8},
+  {"name":"Unicode roll-up","kind":"rolling","cues":[[0,2000,"你好 世界 🌍"],[1000,3000,"你好 世界 🌍\nCafé déjà-vu"]],"expected":"你好 世界 🌍 Café déjà-vu","duplicates":3},
+  {"name":"repeat after real gap","kind":"counterexample","cues":[[0,2000,"Hello there"],[5000,7000,"Hello there"]],"expected":"Hello there Hello there","duplicates":0},
+  {"name":"repeated phrase ambiguity","kind":"counterexample","cues":[[0,2000,"go now go now"],[1000,3000,"go now go now\nTry again"]],"expected":"go now go now go now go now Try again","duplicates":0},
+  {"name":"intentional intra-line repetition","kind":"counterexample","cues":[[0,2000,"I said very good"],[1000,3000,"very good very good indeed"]],"expected":"I said very good very good very good indeed","duplicates":0},
+  {"name":"single-word hesitation","kind":"counterexample","cues":[[0,2000,"yes"],[1000,3000,"yes\nplease continue"]],"expected":"yes yes please continue","duplicates":0},
+  {"name":"identical touching cues","kind":"counterexample","cues":[[0,1000,"Thank you"],[1000,2000,"Thank you"]],"expected":"Thank you Thank you","duplicates":0},
+  {"name":"nonadjacent repetition","kind":"counterexample","cues":[[0,2000,"Hello there"],[500,2500,"Another speaker"],[1000,3000,"Hello there"]],"expected":"Hello there Another speaker Hello there","duplicates":0}
+]

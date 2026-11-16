@@ -1,0 +1,6 @@
+{
+  "default": {"max_pattern_tokens": 2},
+  "languages": {
+    "zh": {"unit": "characters", "min_pattern_units": 4, "max_pattern_tokens": 5}
+  }
+}

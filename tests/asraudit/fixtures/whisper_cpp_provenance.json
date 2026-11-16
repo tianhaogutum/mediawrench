@@ -1,0 +1,70 @@
+{
+  "kind": "locally authored synthetic integration fixture, not model output",
+  "upstream": {
+    "project": "ggml-org/whisper.cpp",
+    "version": "v1.7.6",
+    "commit": "a8d002cfd879315632a579e73f0148d06959de36",
+    "source": "https://github.com/ggml-org/whisper.cpp/blob/a8d002cfd879315632a579e73f0148d06959de36/examples/cli/cli.cpp#L594-L752",
+    "source_sha256": "049d610977ab8e8dc98fa8ae45dc4034047eac4240812b6d4fbc38f395ca9070",
+    "timestamp_source": "https://github.com/ggml-org/whisper.cpp/blob/a8d002cfd879315632a579e73f0148d06959de36/examples/common-whisper.cpp#L138-L151"
+  },
+  "format": "whisper-cli --output-json (-oj); segment offsets integer milliseconds, timestamps HH:MM:SS,mmm",
+  "expected": {
+    "outside_speech_fraction_threshold": 0.2,
+    "outside_fractions": [
+      0.2,
+      0.2,
+      0.0
+    ],
+    "flagged_segments": [
+      0,
+      1
+    ],
+    "speech_corroborated_repeats": [
+      0,
+      1
+    ],
+    "review_ranges": [
+      {
+        "start": 0,
+        "end": 20,
+        "segments": [
+          0,
+          1
+        ],
+        "reasons": [
+          "adjacent_repeat",
+          "outside_speech"
+        ]
+      }
+    ]
+  },
+  "files": {
+    "whisper_cpp_normalized.json": "38ac4b5e918084eb551b966c754a00b38467ac52b866c101c2f6d5ab2b43a6e3",
+    "whisper_cpp_speech.json": "fb1507b5878c2bf4539cc8cb6ec2fbc935818e1bee8841f03c7d0ac476f986a1",
+    "whisper_cpp_v1_7_6.json": "b2f1b59e8234e21e833c78bbd5e5ded3b6dfe61ac5f4da4af671606395feb74f",
+    "whisper_cpp_full_v1_7_6.json": "d81575809334e2d6b6d46b8457609d62071742d05b177960a997ff3447b5d888"
+  },
+  "full_output": {
+    "fixture": "whisper_cpp_full_v1_7_6.json",
+    "kind": "locally authored synthetic -ojf schema fixture, not model output; token text/IDs are structural examples, not vocabulary/alignment claims",
+    "exporter_source": "https://github.com/ggml-org/whisper.cpp/blob/a8d002cfd879315632a579e73f0148d06959de36/examples/cli/cli.cpp#L625-L691",
+    "expected_without_vad": {
+      "flagged_segments": [
+        0,
+        1
+      ],
+      "reasons": [
+        "adjacent_repeat"
+      ],
+      "token_paths": [
+        "transcription[0].tokens[0]",
+        "transcription[0].tokens[1]",
+        "transcription[1].tokens[0]"
+      ],
+      "segment_scores": null,
+      "unflagged_segment_with_token_p_zero": 2
+    },
+    "policy": "all raw parsed token fields, original ordering and special tokens; p never becomes segment confidence; offsets remain milliseconds and t_dtw remains unconverted"
+  }
+}

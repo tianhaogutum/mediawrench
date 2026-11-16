@@ -1,0 +1,10 @@
+{
+  "fixture_origin": "Locally authored synthetic integration transcript; no audio/model output or hallucination truth labels.",
+  "language": "en",
+  "segments": [
+    {"start": 0, "end": 10, "text": "Thank you. Thank you. Thank you."},
+    {"start": 20, "end": 30, "language": "zh", "text": "欢迎收听，欢迎收听，欢迎收听，"},
+    {"start": 40, "end": 50, "text": "Thank you. Thank you."},
+    {"start": 60, "end": 70, "text": "Thank you. Thank you! Thank you."}
+  ]
+}

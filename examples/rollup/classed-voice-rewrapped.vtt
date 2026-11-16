@@ -1,0 +1,16 @@
+WEBVTT Classed voice rewrap
+Language: en
+
+NOTE retained before the first source cue
+
+source-1
+00:00.000 --> 00:02.000 align:start position:20%
+<v.em Ada><b.strong>We
+are ready</b></v>
+
+NOTE retained between source cues
+
+source-2
+00:01.000 --> 00:03.000 align:start position:20%
+<v.em Ada><b.strong>We are
+ready now</b></v>

@@ -1,0 +1,10 @@
+{
+  "segments": [
+    {"id": "unaligned", "start": 0, "end": 4, "text": "Hello £13.60 world.",
+     "words": [{"word": "Hello", "start": 0, "end": 0.5},
+               {"word": "£13.60"},
+               {"word": "world.", "start": 3, "end": 4}]},
+    {"id": "no-words", "start": 4, "end": 7,
+     "text": "这段原文没有词级时间戳。"}
+  ]
+}

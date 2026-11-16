@@ -1,0 +1,182 @@
+{
+  "fixture": "rates-multistream.mp4",
+  "license": "Project-created synthetic media, root MIT license",
+  "sizeBytes": 4732,
+  "sha256": "5cd52bb37864055f04fb85b41cbf69b8ac53566e91ac4011106105131db5b240",
+  "generator": {
+    "version": "ffmpeg 7.0.2-static",
+    "sha256": "e7e7fb30477f717e6f55f9180a70386c62677ef8a4d4d1a5d948f4098aa3eb99",
+    "argv": [
+      "/absolute/path/to/ffmpeg",
+      "-nostdin",
+      "-v",
+      "error",
+      "-f",
+      "lavfi",
+      "-i",
+      "anullsrc=r=8000:cl=mono:d=2.5",
+      "-f",
+      "lavfi",
+      "-i",
+      "color=c=black:s=16x16:r=24:d=2.5",
+      "-f",
+      "lavfi",
+      "-i",
+      "color=c=black:s=16x16:r=30000/1001:d=2.5",
+      "-map",
+      "0:a:0",
+      "-map",
+      "1:v:0",
+      "-map",
+      "2:v:0",
+      "-c:a",
+      "alac",
+      "-c:v",
+      "mpeg4",
+      "-bf",
+      "0",
+      "-q:v",
+      "10",
+      "-threads:v",
+      "1",
+      "-fflags",
+      "+bitexact",
+      "-flags:a",
+      "+bitexact",
+      "-flags:v",
+      "+bitexact",
+      "tests/cutlist/fixtures/rates-multistream.mp4"
+    ],
+    "cwd": "repository root",
+    "inputs": "lavfi-generated silence and black 16x16 video; no external media",
+    "method": "ALAC mono 8000Hz 2.5s, MPEG-4 no B frames: 60 frames at24/1, 75 frames at30000/1001, origins0",
+    "reproducedByteIdentically": true
+  },
+  "inspection": {
+    "version": "ffprobe 7.0.2-static",
+    "sha256": "4f231a1960d83e403d08f7971e271707bec278a9ae18e21b8b5b03186668450d",
+    "queries": [
+      {
+        "argv": [
+          "/absolute/path/to/ffprobe",
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file",
+          "-select_streams",
+          "0",
+          "-show_program_version",
+          "-show_entries",
+          "format=duration,format_name,size:program_version=version:stream=index,codec_type,avg_frame_rate,r_frame_rate,start_time",
+          "-of",
+          "json",
+          "-i",
+          "tests/cutlist/fixtures/rates-multistream.mp4"
+        ],
+        "response": {
+          "program_version": {
+            "version": "7.0.2-static https://johnvansickle.com/ffmpeg/ "
+          },
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 0,
+              "codec_type": "audio",
+              "r_frame_rate": "0/0",
+              "avg_frame_rate": "0/0",
+              "start_time": "0.000000"
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "2.502500",
+            "size": "4732"
+          }
+        },
+        "rawStdoutSha256": "9acfd362bf860f896d90c0afc43aa6bff3d605f03609920bd1f59122046cf08c"
+      },
+      {
+        "argv": [
+          "/absolute/path/to/ffprobe",
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file",
+          "-select_streams",
+          "1",
+          "-show_program_version",
+          "-show_entries",
+          "format=duration,format_name,size:program_version=version:stream=index,codec_type,avg_frame_rate,r_frame_rate,start_time",
+          "-of",
+          "json",
+          "-i",
+          "tests/cutlist/fixtures/rates-multistream.mp4"
+        ],
+        "response": {
+          "program_version": {
+            "version": "7.0.2-static https://johnvansickle.com/ffmpeg/ "
+          },
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 1,
+              "codec_type": "video",
+              "r_frame_rate": "24/1",
+              "avg_frame_rate": "24/1",
+              "start_time": "0.000000"
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "2.502500",
+            "size": "4732"
+          }
+        },
+        "rawStdoutSha256": "49f6c4fc60230502899071c14a478f60a45306917ae4a0f4397a8dc7d5ed765a"
+      },
+      {
+        "argv": [
+          "/absolute/path/to/ffprobe",
+          "-v",
+          "error",
+          "-protocol_whitelist",
+          "file",
+          "-select_streams",
+          "2",
+          "-show_program_version",
+          "-show_entries",
+          "format=duration,format_name,size:program_version=version:stream=index,codec_type,avg_frame_rate,r_frame_rate,start_time",
+          "-of",
+          "json",
+          "-i",
+          "tests/cutlist/fixtures/rates-multistream.mp4"
+        ],
+        "response": {
+          "program_version": {
+            "version": "7.0.2-static https://johnvansickle.com/ffmpeg/ "
+          },
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "index": 2,
+              "codec_type": "video",
+              "r_frame_rate": "30000/1001",
+              "avg_frame_rate": "30000/1001",
+              "start_time": "0.000000"
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "2.502500",
+            "size": "4732"
+          }
+        },
+        "rawStdoutSha256": "3766b18b81c637078eaf26b34d508e7402ce6607f2e65866a2a01f4affeed90a"
+      }
+    ]
+  },
+  "reproduction": "Run generator argv using explicit ffmpeg into a fresh path. This build reproduces bytes; other builds may differ. Tests assert metadata/behavior, not portable generator hashes. No ffmpeg needed at test time."
+}

@@ -1,0 +1,8 @@
+{
+  "words": [
+    {"word": "First", "start": 0, "end": 1},
+    {"word": "boundary", "start": 1, "end": 3},
+    {"word": "last", "start": 3, "end": 4},
+    {"word": "point", "start": 4, "end": 4}
+  ]
+}

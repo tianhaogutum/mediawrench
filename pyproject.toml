@@ -1,0 +1,145 @@
+[build-system]
+requires = ["hatchling>=1.27", "hatch-fancy-pypi-readme>=24.1"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mediawrench"
+version = "0.1.0"
+description = "Offline, auditable tools for subtitles, transcripts, audio and video: repair captions, reflow ASR words, join speakers, verify loudness and transcodes, convert chapters."
+# README.md with repository-relative links rewritten for PyPI (see tool.hatch.metadata.hooks below).
+dynamic = ["readme"]
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY.md", "licenses/*"]
+authors = [{ name = "tianhaogutum" }]
+keywords = [
+    "subtitles", "srt", "webvtt", "captions", "asr", "whisper", "transcription",
+    "diarization", "rttm", "ffmpeg", "loudness", "lufs", "audacity", "losslesscut",
+    "chapters", "matroska", "audio", "video",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Natural Language :: English",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+    "Topic :: Multimedia :: Sound/Audio :: Conversion",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Multimedia :: Video :: Conversion",
+    "Topic :: Text Processing",
+    "Topic :: Utilities",
+]
+dependencies = [
+    # rollup, reflow, audacity, speakers, cutlist: SRT/WebVTT parsing and serialization
+    "pysubs2>=1.8.0,<2",
+    # reflow: grapheme boundaries and display-cell widths
+    "wcwidth>=0.9.4,<1",
+]
+# FFmpeg (ffmpeg, ffprobe) is an external program, not a Python dependency: `loudness` and
+# `postflight` need it; `chapters verify-media` and `cutlist --ffprobe` use it optionally.
+
+[project.optional-dependencies]
+# Test runner. Besides pytest, the tests import only the standard library, core
+# dependencies (pysubs2) and the repository's own examples/ package, which is why the
+# sdist ships examples/. Tests that need real FFmpeg skip when ffmpeg/ffprobe are not
+# on PATH.
+test = ["pytest>=9.0.2"]
+
+[project.urls]
+Homepage = "https://github.com/tianhaogutum/mediawrench"
+Repository = "https://github.com/tianhaogutum/mediawrench"
+Issues = "https://github.com/tianhaogutum/mediawrench/issues"
+Documentation = "https://github.com/tianhaogutum/mediawrench/blob/main/docs/README.md"
+
+[project.scripts]
+mediawrench = "mediawrench.cli:main"
+
+# PyPI cannot resolve repository-relative links or images: rewrite them to GitHub URLs.
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+# <img src>, <source srcset>: raw file URLs so the images render
+pattern = '(src|srcset)="(?!https?://)([^"]+)"'
+replacement = '\1="https://raw.githubusercontent.com/tianhaogutum/mediawrench/main/\2"'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = 'href="(?!https?://|#|mailto:)([^"]+)"'
+replacement = 'href="https://github.com/tianhaogutum/mediawrench/blob/main/\1"'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+# Markdown images, then Markdown links to files and directories
+pattern = '!\[([^\]]*)\]\((?!https?://)([^)\s]+)\)'
+replacement = '![\1](https://raw.githubusercontent.com/tianhaogutum/mediawrench/main/\2)'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\]\((?!https?://|#|mailto:)([^)\s]+)\)'
+replacement = '](https://github.com/tianhaogutum/mediawrench/blob/main/\1)'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+# In-page anchors: PyPI does not generate heading ids
+pattern = '\]\(#([^)\s]+)\)'
+replacement = '](https://github.com/tianhaogutum/mediawrench#\1)'
+
+[tool.hatch.build.targets.wheel]
+# The tools read no packaged data files; the wheel is the Python package plus license files.
+packages = ["src/mediawrench"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/docs",
+    "/examples",
+    "/benchmarks",
+    "/licenses",
+    "/README.md",
+    "/LICENSE",
+    "/THIRD_PARTY.md",
+    "/pyproject.toml",
+]
+exclude = [
+    "__pycache__",
+    "*.py[cod]",
+    ".tools",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".mypy_cache",
+    ".venv",
+    "*.egg-info",
+    ".DS_Store",
+    "examples/*/output",
+    "examples/loudness/generated",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra"]
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+# Correctness-focused set; the merged tools keep their original compact style.
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+# Test modules re-export fixtures and helpers across sibling modules and keep a compact style.
+"tests/**" = ["F401", "F811", "F841", "E402", "E701", "E702", "E731"]
+# Demo and benchmark scripts put src/ on sys.path before importing and keep a compact style.
+"examples/**" = ["F841", "E402", "E701", "E702"]
+"benchmarks/**" = ["F841", "E402", "E701", "E702"]

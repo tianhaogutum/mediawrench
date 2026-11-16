@@ -1,0 +1,245 @@
+{
+  "fixture_provenance": "original synthetic text; no media",
+  "baseline": "fixed N=3 words; same normalization and timing repair",
+  "config": {
+    "max_chars": 16,
+    "target_duration": 1.5,
+    "max_duration": 3.0,
+    "max_cps": 20.0,
+    "pause": 0.5
+  },
+  "fixtures": [
+    {
+      "name": "pause-vs-midphrase",
+      "input": {
+        "segments": [
+          {
+            "id": "synthetic-pause",
+            "start": 0,
+            "end": 3,
+            "text": "Hello there. Next topic.",
+            "words": [
+              {
+                "id": "hello",
+                "word": " Hello",
+                "start": 0,
+                "end": 0.7
+              },
+              {
+                "id": "there",
+                "word": " there.",
+                "start": 0.7,
+                "end": 1.2
+              },
+              {
+                "id": "next",
+                "word": " Next",
+                "start": 2,
+                "end": 2.4
+              },
+              {
+                "id": "topic",
+                "word": " topic.",
+                "start": 2.4,
+                "end": 3
+              }
+            ]
+          }
+        ]
+      },
+      "algorithms": {
+        "fixed": {
+          "objective": [
+            0,
+            0,
+            4920
+          ],
+          "metrics": {
+            "cue_count": 2,
+            "constraint_violations": 0,
+            "pause_boundary_penalty": 3400,
+            "source_words": 4,
+            "mapped_words": 4,
+            "source_units": 4,
+            "mapped_units": 4,
+            "tokens_conserved": true,
+            "original_text_conserved": true
+          },
+          "boundaries": [
+            [
+              "/segments/0/words/0",
+              "/segments/0/words/1",
+              "/segments/0/words/2"
+            ],
+            [
+              "/segments/0/words/3"
+            ]
+          ],
+          "constraints": []
+        },
+        "dp": {
+          "objective": [
+            0,
+            0,
+            951
+          ],
+          "metrics": {
+            "cue_count": 2,
+            "constraint_violations": 0,
+            "pause_boundary_penalty": 0,
+            "source_words": 4,
+            "mapped_words": 4,
+            "source_units": 4,
+            "mapped_units": 4,
+            "tokens_conserved": true,
+            "original_text_conserved": true
+          },
+          "boundaries": [
+            [
+              "/segments/0/words/0",
+              "/segments/0/words/1"
+            ],
+            [
+              "/segments/0/words/2",
+              "/segments/0/words/3"
+            ]
+          ],
+          "constraints": []
+        }
+      }
+    },
+    {
+      "name": "dense-infeasible",
+      "input": {
+        "segments": [
+          {
+            "start": 0,
+            "end": 2,
+            "text": "Extraordinary speed overwhelms these subtitles.",
+            "words": [
+              {
+                "word": "Extraordinary",
+                "start": 0.0,
+                "end": 0.4
+              },
+              {
+                "word": " speed",
+                "start": 0.4,
+                "end": 0.8
+              },
+              {
+                "word": " overwhelms",
+                "start": 0.8,
+                "end": 1.2000000000000002
+              },
+              {
+                "word": " these",
+                "start": 1.2000000000000002,
+                "end": 1.6
+              },
+              {
+                "word": " subtitles.",
+                "start": 1.6,
+                "end": 2.0
+              }
+            ]
+          }
+        ]
+      },
+      "algorithms": {
+        "fixed": {
+          "objective": [
+            1,
+            5000,
+            2057
+          ],
+          "metrics": {
+            "cue_count": 2,
+            "constraint_violations": 1,
+            "pause_boundary_penalty": 1000,
+            "source_words": 5,
+            "mapped_words": 5,
+            "source_units": 5,
+            "mapped_units": 5,
+            "tokens_conserved": true,
+            "original_text_conserved": true
+          },
+          "boundaries": [
+            [
+              "/segments/0/words/0",
+              "/segments/0/words/1",
+              "/segments/0/words/2"
+            ],
+            [
+              "/segments/0/words/3",
+              "/segments/0/words/4"
+            ]
+          ],
+          "constraints": [
+            {
+              "code": "speaking_rate",
+              "cps_mode": "codepoint",
+              "count": 30,
+              "count_unit": "codepoints",
+              "cps": 25.0,
+              "rate_unit": "codepoints/second",
+              "max_cps": 20.0,
+              "cue_id": 1,
+              "unit_ids": [
+                "/segments/0/words/0",
+                "/segments/0/words/1",
+                "/segments/0/words/2"
+              ]
+            }
+          ]
+        },
+        "dp": {
+          "objective": [
+            1,
+            5000,
+            2057
+          ],
+          "metrics": {
+            "cue_count": 2,
+            "constraint_violations": 1,
+            "pause_boundary_penalty": 1000,
+            "source_words": 5,
+            "mapped_words": 5,
+            "source_units": 5,
+            "mapped_units": 5,
+            "tokens_conserved": true,
+            "original_text_conserved": true
+          },
+          "boundaries": [
+            [
+              "/segments/0/words/0",
+              "/segments/0/words/1",
+              "/segments/0/words/2"
+            ],
+            [
+              "/segments/0/words/3",
+              "/segments/0/words/4"
+            ]
+          ],
+          "constraints": [
+            {
+              "code": "speaking_rate",
+              "cps_mode": "codepoint",
+              "count": 30,
+              "count_unit": "codepoints",
+              "cps": 25.0,
+              "rate_unit": "codepoints/second",
+              "max_cps": 20.0,
+              "cue_id": 1,
+              "unit_ids": [
+                "/segments/0/words/0",
+                "/segments/0/words/1",
+                "/segments/0/words/2"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

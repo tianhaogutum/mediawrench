@@ -1,0 +1,83 @@
+{
+  "fixture": "origin-multistream.mp4",
+  "license": "Project-created synthetic media, root MIT license",
+  "sizeBytes": 4009,
+  "sha256": "7c8f51609e4379f52b809337f9765c35fa00e1dad3f60bebd2a19e113c70a33a",
+  "generator": {
+    "version": "ffmpeg 7.0.2-static",
+    "sha256": "e7e7fb30477f717e6f55f9180a70386c62677ef8a4d4d1a5d948f4098aa3eb99",
+    "argv": [
+      "/absolute/path/to/ffmpeg",
+      "-nostdin",
+      "-v",
+      "error",
+      "-copyts",
+      "-f",
+      "lavfi",
+      "-i",
+      "anullsrc=r=8000:cl=mono:d=2.5",
+      "-i",
+      "tests/cutlist/fixtures/origin-one.mp4",
+      "-i",
+      "tests/cutlist/fixtures/origin-zero.mp4",
+      "-map",
+      "0:a:0",
+      "-map",
+      "1:v:0",
+      "-map",
+      "2:v:0",
+      "-c:a",
+      "alac",
+      "-c:v",
+      "copy",
+      "-fflags",
+      "+bitexact",
+      "-flags:a",
+      "+bitexact",
+      "-avoid_negative_ts",
+      "disabled",
+      "tests/cutlist/fixtures/origin-multistream.mp4"
+    ],
+    "cwd": "repository root",
+    "inputs": {
+      "origin-one.mp4": "505e7ce3eac77255196f82e3e95bdd33a48c849528630c2fa8f37046c59e535c",
+      "origin-zero.mp4": "8b7b33bea460c0d733562e0bb3411119e674189490a5044a2701d6543200b4eb"
+    },
+    "method": "Synthesize 2.5 seconds mono 8000Hz silence as ALAC; remux the two retained MPEG-4 videos without decoding, preserving timestamps with -copyts. No external media."
+  },
+  "inspection": {
+    "version": "ffprobe 7.0.2-static",
+    "sha256": "4f231a1960d83e403d08f7971e271707bec278a9ae18e21b8b5b03186668450d",
+    "queryEntries": "format=duration,format_name,size:program_version=version:stream=index,codec_type,avg_frame_rate,r_frame_rate,start_time",
+    "absoluteSelectedIndices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "formatDurationSeconds": "3.500000",
+    "streams": [
+      {
+        "index": 0,
+        "codec_type": "audio",
+        "start_time": "0.000000"
+      },
+      {
+        "index": 1,
+        "codec_type": "video",
+        "start_time": "1.000000",
+        "avg_frame_rate": "24/1",
+        "r_frame_rate": "24/1"
+      },
+      {
+        "index": 2,
+        "codec_type": "video",
+        "start_time": "0.000000",
+        "avg_frame_rate": "24/1",
+        "r_frame_rate": "24/1"
+      }
+    ],
+    "missingIndex": 3
+  },
+  "reproduction": "Generate origin-one.mp4 and origin-zero.mp4 using README.md first. Run argv with explicit ffmpeg into a fresh output; ffmpeg refuses overwrite. Another ffmpeg build may produce different bytes; tests assert semantic metadata and behavior, not a portable byte hash."
+}

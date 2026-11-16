@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {"recording": "room-a", "channel": "1", "asr": "room-a.json", "rttm": "rooms.rttm"},
+    {"recording": "room-b", "channel": "1", "asr": "room-b.json", "rttm": "rooms.rttm"}
+  ]
+}

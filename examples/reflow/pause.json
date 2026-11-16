@@ -1,0 +1,16 @@
+{
+  "segments": [
+    {
+      "id": "synthetic-pause",
+      "start": 0,
+      "end": 3,
+      "text": "Hello there. Next topic.",
+      "words": [
+        {"id": "hello", "word": " Hello", "start": 0, "end": 0.7},
+        {"id": "there", "word": " there.", "start": 0.7, "end": 1.2},
+        {"id": "next", "word": " Next", "start": 2, "end": 2.4},
+        {"id": "topic", "word": " topic.", "start": 2.4, "end": 3}
+      ]
+    }
+  ]
+}

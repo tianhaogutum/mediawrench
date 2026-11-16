@@ -1,0 +1,8 @@
+{
+  "duration": 8,
+  "chapters": [
+    {"start_time": 0, "end_time": 2, "title": "Intro"},
+    {"start_time": 2, "end_time": 6.5, "title": "Interview"},
+    {"start_time": 6.5, "end_time": 8, "title": "Credits"}
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "cases": [
+    {
+      "case": "two-line roll-up",
+      "kind": "rolling",
+      "baseline_tokens": 6,
+      "repaired_tokens": 4,
+      "expected_tokens": 4,
+      "labeled_duplicate_tokens_before": 2,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 0
+    },
+    {
+      "case": "identical overlapping cues",
+      "kind": "rolling",
+      "baseline_tokens": 4,
+      "repaired_tokens": 2,
+      "expected_tokens": 2,
+      "labeled_duplicate_tokens_before": 2,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 0
+    },
+    {
+      "case": "three-line rollover",
+      "kind": "rolling",
+      "baseline_tokens": 18,
+      "repaired_tokens": 10,
+      "expected_tokens": 10,
+      "labeled_duplicate_tokens_before": 8,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 0
+    },
+    {
+      "case": "Unicode roll-up",
+      "kind": "rolling",
+      "baseline_tokens": 8,
+      "repaired_tokens": 5,
+      "expected_tokens": 5,
+      "labeled_duplicate_tokens_before": 3,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 0
+    },
+    {
+      "case": "repeat after real gap",
+      "kind": "counterexample",
+      "baseline_tokens": 4,
+      "repaired_tokens": 4,
+      "expected_tokens": 4,
+      "labeled_duplicate_tokens_before": 0,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 0
+    },
+    {
+      "case": "repeated phrase ambiguity",
+      "kind": "counterexample",
+      "baseline_tokens": 10,
+      "repaired_tokens": 10,
+      "expected_tokens": 10,
+      "labeled_duplicate_tokens_before": 0,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 1
+    },
+    {
+      "case": "intentional intra-line repetition",
+      "kind": "counterexample",
+      "baseline_tokens": 9,
+      "repaired_tokens": 9,
+      "expected_tokens": 9,
+      "labeled_duplicate_tokens_before": 0,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 1
+    },
+    {
+      "case": "single-word hesitation",
+      "kind": "counterexample",
+      "baseline_tokens": 4,
+      "repaired_tokens": 4,
+      "expected_tokens": 4,
+      "labeled_duplicate_tokens_before": 0,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 1
+    },
+    {
+      "case": "identical touching cues",
+      "kind": "counterexample",
+      "baseline_tokens": 4,
+      "repaired_tokens": 4,
+      "expected_tokens": 4,
+      "labeled_duplicate_tokens_before": 0,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 1
+    },
+    {
+      "case": "nonadjacent repetition",
+      "kind": "counterexample",
+      "baseline_tokens": 6,
+      "repaired_tokens": 6,
+      "expected_tokens": 6,
+      "labeled_duplicate_tokens_before": 0,
+      "labeled_duplicate_tokens_after": 0,
+      "lost_intentional_tokens": 0,
+      "timing_valid": true,
+      "ambiguous_pairs": 0
+    }
+  ],
+  "totals": {
+    "cases": 10,
+    "rolling_cases": 4,
+    "counterexamples": 6,
+    "baseline_tokens": 73,
+    "repaired_tokens": 58,
+    "labeled_duplicate_tokens_before": 15,
+    "labeled_duplicate_tokens_after": 0,
+    "lost_intentional_tokens": 0,
+    "all_sequences_match": true,
+    "all_timings_valid": true
+  }
+}

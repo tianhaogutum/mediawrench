@@ -1,0 +1,6 @@
+{
+  "default": {"unit": "words", "min_pattern_units": 2, "min_repetitions": 3, "high_severity_repetitions": 6},
+  "languages": {
+    "zh": {"unit": "characters", "min_pattern_units": 4}
+  }
+}
