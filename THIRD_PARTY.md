@@ -5,14 +5,16 @@ previously separate MIT-licensed projects by the same authors; their notices are
 preserved below, one section per command, with paths updated to this repository's
 layout. Dependencies are installed by your package manager under their own licenses
 and are never vendored; the mediawrench wheel contains only the `mediawrench` package
-and these project notices. License texts that accompany redistribution are in
-[licenses/](licenses/) (pysubs2 and wcwidth, both MIT).
+(including a small, unmodified MIT subset of ChronoSync used by `drift`, see
+[mediawrench drift](#mediawrench-drift)) and these project notices. License texts that
+accompany redistribution are in [licenses/](licenses/): pysubs2, wcwidth and srt (MIT),
+json5 (Apache-2.0) and ChronoSync (MIT).
 
 Dependency versions quoted below are the ones each tool was originally locked and
 validated against; mediawrench itself declares version ranges in `pyproject.toml`.
 Product names identify interoperable formats and programs only; mediawrench is not
 affiliated with or endorsed by FFmpeg, Audacity, LosslessCut, OpenAI, yt-dlp,
-MKVToolNix or any other project named here.
+MKVToolNix, ChronoSync, darktable, digiKam, Adobe, ExifTool or any other project named here.
 
 ## At a glance
 
@@ -22,32 +24,51 @@ MKVToolNix or any other project named here.
 | --- | --- | --- |
 | [pysubs2](https://github.com/tkarabela/pysubs2) | MIT ([text](licenses/pysubs2-LICENSE.txt)) | `rollup`, `reflow`, `audacity`, `speakers`, `cutlist`; `chunks` tests |
 | [wcwidth](https://github.com/jquast/wcwidth) | MIT ([text](licenses/wcwidth-LICENSE.txt)) | `reflow` (grapheme and display-width measurement) |
+| [srt](https://github.com/cdown/srt) | MIT ([text](licenses/srt-LICENSE.txt)) | `cutsync` (SRT parsing and serialization) |
+| [json5](https://github.com/dpranke/pyjson5) | Apache-2.0 ([text](licenses/json5-LICENSE.txt)) | `cutsync` (LosslessCut `.llc` JSON5 projects) |
+| [NumPy](https://numpy.org/), [SciPy](https://scipy.org/) | BSD-3-Clause | `drift` (optional `drift` extra): numerical work, FFT and peak search |
+| [python-soxr](https://github.com/dofuuz/python-soxr) | LGPL-2.1-or-later (wraps libsoxr, LGPL-2.1-or-later) | `drift` (optional `drift` extra): streaming float-rate resampling |
+| [SoundFile](https://github.com/bastibe/python-soundfile) | BSD-3-Clause (wraps libsndfile, LGPL-2.1-or-later) | `drift` (optional `drift` extra): WAV/RF64 output |
+| [lxml](https://lxml.de/) | BSD-3-Clause (binary wheels also include libxml2/libxslt, MIT, and other libraries under their own notices) | `cull` (optional `cull` extra): XMP parsing and serialization |
+| [simplejson](https://github.com/simplejson/simplejson) | MIT OR AFL-2.1 | `cull` (optional `cull` extra): exact-decimal JSON plans and audits |
 
 ### External programs (never bundled, downloaded or installed by mediawrench)
 
 | Program | License | Used by |
 | --- | --- | --- |
-| [FFmpeg](https://ffmpeg.org/) `ffmpeg` and `ffprobe` | LGPL-2.1-or-later; GPL builds when configured with GPL components (see each build's notices) | `loudness`, `postflight` (required); `chapters verify-media`, `cutlist --ffprobe` (optional) |
+| [FFmpeg](https://ffmpeg.org/) `ffmpeg` and `ffprobe` | LGPL-2.1-or-later; GPL builds when configured with GPL components (see each build's notices) | `loudness`, `postflight`, `drift` (required); `chapters verify-media`, `cutlist --ffprobe` (optional) |
+| [ExifTool](https://exiftool.org/) | Same terms as Perl (Artistic License or GPL) | optional `cull` interoperability tests only; never run by the command |
 
 mediawrench runs these as separate processes with explicit argument lists. Whichever
 build you install keeps its own license; using it through mediawrench does not
 relicense either side.
 
 Test-only dependencies (`test` extra) are [pytest](https://github.com/pytest-dev/pytest) (MIT) and its
-dependencies (iniconfig, pluggy: MIT; packaging: Apache-2.0 OR BSD-2-Clause; Pygments: BSD-2-Clause).
+dependencies (iniconfig, pluggy: MIT; packaging: Apache-2.0 OR BSD-2-Clause; Pygments: BSD-2-Clause),
+[hypothesis](https://github.com/HypothesisWorks/hypothesis) (MPL-2.0) and the packages of the
+`drift` and `cull` extras listed above.
 Build-only tools are [hatchling](https://github.com/pypa/hatch) (MIT) and
 [hatch-fancy-pypi-readme](https://github.com/hynek/hatch-fancy-pypi-readme) (MIT).
 
 ### Bundled code and data
 
-- **No third-party source code is vendored.** Every module under `src/mediawrench/` is original MIT work.
+- **One third-party source subset is vendored:** four unmodified ChronoSync modules (MIT) in
+  `src/mediawrench/drift/_chronosync/`, because ChronoSync is not published on PyPI. Every
+  other module under `src/mediawrench/` is original MIT work.
 - **No third-party media, models or datasets are bundled.** All captions, transcripts, RTTM,
   chapter sidecars and media fixtures under `examples/`, `tests/` and `benchmarks/` are
   original synthetic data under MIT; audio and video test inputs are generated at test time
   with FFmpeg's built-in `lavfi` sources or Python's `wave` module, except the four small
   synthetic MP4 fixtures in `tests/cutlist/fixtures/` (black frames and silence encoded
   locally with FFmpeg; they contain media data only, no FFmpeg code, and are covered by the
-  root MIT license; see its README).
+  root MIT license; see its README). The `drift` tests generate their speech-like audio with
+  FFmpeg's `anoisesrc`; the `cull` examples are original synthetic XMP sidecars.
+- **Exception, test data only:** `tests/cutsync/fixtures/losslesscut/` holds four unmodified
+  LosslessCut parser test fixtures (`sample.srt`, `test1.csv`, `test2.csv`, `test3.csv`)
+  under GPL-2.0, with that license beside them. They ship in the sdist with the tests,
+  not in the wheel, and no LosslessCut code is included. Optional upstream XMP sidecars
+  for the `cull` tests are downloaded by hand into an ignored directory and never
+  distributed (see [mediawrench cull](#mediawrench-cull)).
 - FFmpeg itself is an external program that you install separately. It is not bundled in
   the wheel, the sdist or the repository, and mediawrench never downloads it.
 
@@ -56,6 +77,7 @@ Build-only tools are [hatchling](https://github.com/pypa/hatch) (MIT) and
 - [mediawrench rollup](#mediawrench-rollup)
 - [mediawrench reflow](#mediawrench-reflow)
 - [mediawrench audacity](#mediawrench-audacity)
+- [mediawrench cutsync](#mediawrench-cutsync)
 - [mediawrench asr-audit](#mediawrench-asr-audit)
 - [mediawrench speakers](#mediawrench-speakers)
 - [mediawrench cutlist](#mediawrench-cutlist)
@@ -63,6 +85,8 @@ Build-only tools are [hatchling](https://github.com/pypa/hatch) (MIT) and
 - [mediawrench loudness](#mediawrench-loudness)
 - [mediawrench postflight](#mediawrench-postflight)
 - [mediawrench chapters](#mediawrench-chapters)
+- [mediawrench drift](#mediawrench-drift)
+- [mediawrench cull](#mediawrench-cull)
 
 ## mediawrench rollup
 
@@ -211,6 +235,42 @@ Notice (also retained in the installed distribution):
   https://www.w3.org/TR/2019/CR-webvtt1-20190404/#webvtt-cue-settings. The validator,
   serializer and synthetic settings fixtures are original code; no W3C document or
   implementation is bundled.
+
+## mediawrench cutsync
+
+Formerly the standalone MIT project srt-cut-sync ("Copyright (c) 2026 srt-cut-sync
+contributors"). Its implementation (`src/mediawrench/cutsync/`), tests
+(`tests/cutsync/`), documentation and authored examples (`examples/cutsync/`) are
+original MIT work. It is a thin integration around `srt` and `json5`: it reuses their
+parsers and serializer unmodified (no fork or monkeypatch) and adds only the
+piecewise keep-list time mapping and its per-cue audit. No competitor implementation
+was copied.
+
+| Project | Version / license | Relationship |
+| --- | --- | --- |
+| [srt](https://github.com/cdown/srt) | MIT (originally validated with 3.5.3) | Runtime SRT parsing, timestamp serialization and cue objects. Installed separately, not vendored; license text in [licenses/srt-LICENSE.txt](licenses/srt-LICENSE.txt) ("Copyright (c) 2014-present Christopher Down"). |
+| [json5](https://github.com/dpranke/pyjson5) | Apache-2.0 (originally validated with 0.17.3) | Runtime parsing of LosslessCut `.llc` JSON5 projects. Installed separately, not vendored; license text in [licenses/json5-LICENSE.txt](licenses/json5-LICENSE.txt). |
+| [LosslessCut](https://github.com/mifi/lossless-cut) | GPL-2.0 | Interoperability with its public CSV (seconds and frames) and `.llc` v1/v2 project formats, read from source commit `4c7ab1cb0c9acaefabb48e997bc909562dc3624d` (`edlFormats.ts`, `edlStore.ts`, `types.ts`, `getTimeFromFrameNum`, `formatCsvFrames`, `util/duration.ts`); no implementation, binary or GUI is distributed. Four unmodified test fixtures are included as test data (below). |
+| [pysubs2](https://github.com/tkarabela/pysubs2) | MIT (1.9.1 surveyed) | Related project / reference only (subtitle conversion, shifting, FPS transforms); not used by `cutsync`. |
+| [srt-cut](https://github.com/overlookmotel/srt-cut) | 2.0.0 surveyed | Related project / reference only; no code or dependency. |
+| [Auto-Editor](https://github.com/WyattBlue/auto-editor), [yt-dlp](https://github.com/yt-dlp/yt-dlp) | source surveyed 2026-11-11 | Related projects that already remap subtitle sidecars inside full editing/download workflows; reference only. |
+| [FFmpeg](https://ffmpeg.org/) | LGPL-2.1+ or GPL, depending on the build | Not used at runtime. FFmpeg 9.0.2 was used once to convert the authored `tests/cutsync/fixtures/editor-export.ass` into `ffmpeg-export.srt`; tests optionally run `ffprobe` on an output SRT when it is on `PATH`. |
+
+Test fixtures in `tests/cutsync/fixtures/`: `losslesscut/sample.srt`, `test1.csv`,
+`test2.csv` and `test3.csv` were downloaded unchanged on 2026-11-11 from
+`https://github.com/mifi/lossless-cut/tree/4c7ab1cb0c9acaefabb48e997bc909562dc3624d/src/renderer/src/test/fixtures`
+and keep their upstream GPL-2.0 license, included beside them as
+`tests/cutsync/fixtures/losslesscut/LICENSE`; they are test data only and are not in the
+wheel. `editor-export.ass` is authored (MIT) and `ffmpeg-export.srt` is its FFmpeg 9.0.2
+conversion. Details are in `tests/cutsync/fixtures/PROVENANCE.md`. The `.llc` examples
+follow the schema and serializer read from the pinned LosslessCut source but were not
+saved through the LosslessCut GUI.
+
+Development of the original project used pytest, hypothesis, ruff, build and hatchling
+(none bundled or needed at runtime). Upstream behaviors it works around (srt
+regular-expression backtracking on short malformed input; json5 0.17.3 leaving escaped
+UTF-16 surrogate pairs uncombined; the final-timeline mapping question in LosslessCut
+issue 3209) are documented in `docs/cutsync.md`; nothing was reported upstream.
 
 ## mediawrench asr-audit
 
@@ -455,3 +515,148 @@ bundled executables.
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp) | Reads locally saved `info.json`-shaped `duration`/`chapters` data only | Unlicense; no yt-dlp code, downloader, network access or binary bundled. |
 | [LosslessCut](https://github.com/mifi/lossless-cut) | Format interoperability context only; no LosslessCut project parser | GPL-2.0 (or-later applicability unverified); no code copied. |
 | [ChapterTool](https://github.com/tautcony/ChapterTool) | Existing broad chapter converter; context only | GPLv3+ (per the original research); no source copied or linked. |
+
+## mediawrench drift
+
+Formerly the standalone MIT project drift-review (distribution name
+`chronosync-drift-review`), a local review and rendering adapter for ChronoSync. Its
+orchestration code (`src/mediawrench/drift/` except `_chronosync/`), tests
+(`tests/drift/`), the demo generator (`examples/drift/make_demo.py`) and
+documentation are original MIT work. It is not a new correlation, regression or
+resampling engine: the DSP comes from the projects below.
+
+### Vendored code: ChronoSync (MIT)
+
+[ChronoSync](https://github.com/Eureka175/ChronoSync), MIT, copyright (c) 2025
+ChronoSync contributors, source commit `120002ab887bac3d54222d7375edc1f8aedb07a2`
+(package version `0.1.0b0`, release `v0.1.0-beta`). The standalone tool installed it
+as a Git dependency pinned to that commit. ChronoSync is not published on PyPI, so
+mediawrench ships the four modules the command calls, unmodified, in
+`src/mediawrench/drift/_chronosync/`: `fine/gcc_phat.py` (GCC-PHAT delay estimation
+with peak, polarity and confidence diagnostics), `fine/peak.py`, `fine/subsample.py`
+(parabolic sub-sample refinement) and `drift/regression.py` (`weighted_linear_fit`).
+Only the package path changed (the files sit side by side and keep their relative
+imports). This is the only third-party source code in mediawrench. Full license text:
+[licenses/chronosync-LICENSE.txt](licenses/chronosync-LICENSE.txt):
+
+> MIT License
+>
+> Copyright (c) 2025 ChronoSync contributors
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, including without limitation the rights
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the Software is
+> furnished to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in all
+> copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+> SOFTWARE.
+
+### Runtime dependencies (`drift` extra, installed separately, never vendored)
+
+Versions are the ones the standalone tool locked and validated against.
+
+- [NumPy](https://numpy.org/) 2.4.6, BSD-3-Clause: arrays and numerical operations.
+- [SciPy](https://scipy.org/) 1.17.1, BSD-3-Clause: `scipy.fft` and
+  `scipy.signal.find_peaks`, used by the vendored ChronoSync modules.
+- [python-soxr](https://github.com/dofuuz/python-soxr) 1.1.0, LGPL-2.1-or-later, a
+  wrapper around [libsoxr](https://sourceforge.net/projects/soxr/)
+  (LGPL-2.1-or-later): constant-ratio VHQ streaming resampling at a floating input
+  rate. See the installed wheel's notices.
+- [SoundFile](https://github.com/bastibe/python-soundfile) 0.14.0, BSD-3-Clause, a
+  wrapper around [libsndfile](https://libsndfile.github.io/libsndfile/)
+  (LGPL-2.1-or-later): streamed WAV/RF64 output and clip export. See the installed
+  wheel's notices.
+
+The LGPL libraries are used as installed, dynamically loaded packages; mediawrench
+does not copy, modify or redistribute them.
+
+### External FFmpeg / ffprobe (run as subprocesses, never bundled)
+
+Probing and decoding every input format go through the `ffmpeg`/`ffprobe` you
+install; the license depends on your build (see https://ffmpeg.org/legal.html). No
+FFmpeg code or binary is redistributed.
+
+### Test and example audio
+
+The standalone tool's tests used two unmodified speech recordings from the BBC's
+[audio-offset-finder](https://github.com/bbc/audio-offset-finder) test suite (source
+commit `6b8b12b04104e66d890f8feea080889aa775d9b7`): `timbl_1.mp3`, a Tim
+Berners-Lee interview from the BBC Today programme, 9 July 2008 (BBC / Tim
+Berners-Lee, [CC BY 3.0 Unported](https://creativecommons.org/licenses/by/3.0/),
+[Wikimedia source](https://commons.wikimedia.org/wiki/File:Tim_Berners-Lee_-_Today_(ffmpeg_FLAC_in_OGG).oga)),
+and `r4_excerpt2.ogg`, an excerpt of the spoken Wikipedia "BBC Radio 4" article
+recorded by Tom Morris ([CC BY-SA 3.0 Unported](https://creativecommons.org/licenses/by-sa/3.0/),
+[Wikimedia source](https://commons.wikimedia.org/wiki/File:BBC_Radio_4.ogg)).
+mediawrench does **not** include them. Its tests and demo generate deterministic
+speech-like audio at run time with FFmpeg's `anoisesrc` (seeded pink noise gated by
+an irregular envelope) and derive every variant from it with FFmpeg filters, so no
+recorded media is committed.
+
+### Related projects (no code reused)
+
+The standalone tool's survey compared
+[double-ender-sync](https://github.com/ogra/double-ender-sync) 0.2.7,
+[Align](https://github.com/FedyaLight/align),
+[alignaudio](https://github.com/norihiro/alignaudio),
+[audio-offset-finder](https://github.com/bbc/audio-offset-finder) 0.5.5,
+[Audalign](https://github.com/benfmiller/audalign) 1.3.1,
+[librosa](https://github.com/librosa/librosa) and
+[libltc](https://github.com/x42/libltc). They already cover automatic alignment,
+drift correction or timecode in broader workflows; this command adds only a
+bounded-memory, manual-approval review ledger and streamed render. No source from
+them is copied or linked. The test runner is
+[pytest](https://github.com/pytest-dev/pytest) (MIT).
+
+## mediawrench cull
+
+Formerly the standalone MIT project cullmerge (Copyright (c) 2026 Cullmerge contributors). The
+implementation in `src/mediawrench/cull/`, its tests (`tests/cull/`), documentation and the three
+synthetic example sidecars (`examples/cull/`, generated with ExifTool 13.63 from authored metadata
+and an illustrative Camera Raw exposure value) are original MIT work. No third-party source is
+vendored; no photo, RAW or rendered image is included.
+
+### Runtime dependencies (optional `cull` extra)
+
+- [lxml](https://lxml.de/), BSD-3-Clause (originally locked and validated at **6.1.3**). Parses XMP
+  packets with entity/DTD loading disabled and serializes the merged sidecar; its binary wheels
+  include libxml2 and libxslt (MIT) and other libraries under their own notices.
+- [simplejson](https://github.com/simplejson/simplejson), MIT OR AFL-2.1 (originally locked and
+  validated at **3.20.2**). Writes exact `Decimal` ratings as JSON numbers in plans and audits.
+
+The original project's build backend was hatchling (MIT); development tools were pytest (MIT),
+hypothesis (MPL-2.0), ruff (MIT) and build (MIT). Nothing from them is copied.
+
+### Test fixtures (downloaded on demand, never redistributed)
+
+`tests/cull/fixtures/SOURCES.md` records origins and SHA-256 hashes. The optional real-format tests
+use, when a user downloads them into the ignored `tests/cull/fixtures/downloaded/`:
+
+- two sidecars from [darktable-tests](https://github.com/darktable-org/darktable-tests) at commit
+  `0d3e1ac9acfbdb2c15491fd631b7f48991fcfdc9` (no top-level license; the XMP-v4 file carries a
+  CC-BY-SA rights statement and publisher Pascal Obry in its metadata, preserved unchanged);
+- two mixed-application sidecars from [digiKam](https://invent.kde.org/graphics/digikam)'s metadata
+  tests at commit `33d0457e20adda97c003f3dee652a1749406ff9f` (rights text inside the packets preserved);
+- nine `t/images/XMP*.xmp` files from [ExifTool](https://github.com/exiftool/exiftool) 13.63 at commit
+  `1da714924f67763b6a8a7013dd2aa1983a16f87b` (ExifTool is distributed under the same terms as Perl).
+
+`tests/cull/fixtures/exiftool-darktable.config` is an authored ExifTool configuration (MIT).
+
+### Format interoperability and related projects (no code reused)
+
+| Project | Relationship | License / scope |
+| --- | --- | --- |
+| [ExifTool](https://exiftool.org/) | Optional independent writer/reader in tests; documented as a checker. Not used to write the merge because a selective rewrite drops empty unknown RDF lists and reformats the packet. | Perl terms (Artistic or GPL); never bundled or run by the command. |
+| [darktable](https://www.darktable.org/) | Reads/writes `darktable:colorlabels`, `xmp:Rating`/`xmp:Label`; its import-default rating policy is followed. Not run. | GPL-3.0-or-later; no code copied. |
+| [digiKam](https://www.digikam.org/) | `digiKam:PickLabel` / `digiKam:ColorLabel` value ranges taken from its documented enums. Not run. | GPL-2.0-or-later; no code copied. |
+| [Adobe XMP](https://developer.adobe.com/xmp/docs/) | XMP Basic `xmp:Rating` (Real, -1 or [0, 5], missing = unrated), `xmpDM:pick`, packet header hints. | Specification; text not copied. |
+| LightCraft, Facet, shoots, Python XMP Toolkit | Surveyed related tools (single-writer XMP preservation, newest-wins sidecar sync, AI rating, XMP bindings); none performs an ancestor-based per-field merge. | Context only; nothing installed, copied or linked. |

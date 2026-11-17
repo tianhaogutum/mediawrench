@@ -7,7 +7,7 @@
 
 <p align="center">
   <strong>Catch the truncated audio, missed loudness target and dropped chapters before you ship the file.</strong><br>
-  One offline CLI for subtitles, transcripts, audio and video: check deliverables, repair captions, turn ASR output into subtitles.
+  One offline CLI for subtitles, transcripts, audio and video (plus photo culls): check deliverables, repair captions, turn ASR output into subtitles.
 </p>
 
 <p align="center">
@@ -76,6 +76,7 @@ Each line is PASS, WARN, FAIL, UNKNOWN (ran but could not decide) or SKIPPED (no
 | **Subtitles & captions** | `rollup` | Repair roll-up WebVTT captions into clean SRT/VTT with token provenance | [rollup](docs/rollup.md) |
 | | `reflow` | Reflow ASR word timestamps into readable SRT cues (width, duration, reading speed) | [reflow](docs/reflow.md) |
 | | `audacity` | Round-trip SRT/WebVTT timing edits through Audacity labels with a loss audit | [audacity](docs/audacity.md) |
+| | `cutsync` | Apply a video's keep ranges to its sidecar SRT; new SRT plus a per-cue change list | [cutsync](docs/cutsync.md) |
 | **Transcripts & speech** | `asr-audit` | Flag suspicious ASR segments (repeats, loops, off-VAD speech) for human review | [asr-audit](docs/asr-audit.md) |
 | | `speakers` | Join diarization RTTM with ASR JSON into speaker-labelled JSON, Markdown or SRT | [speakers](docs/speakers.md) |
 | | `cutlist` | Turn SRT cue selections into auditable LosslessCut cutlists, CSV and provenance | [cutlist](docs/cutlist.md) |
@@ -84,8 +85,10 @@ Each line is PASS, WARN, FAIL, UNKNOWN (ran but could not decide) or SKIPPED (no
 | | `loudness` | Loudness-normalize audio; publish only after the final file passes LUFS/true peak | [loudness](docs/loudness.md) |
 | | `postflight` | Decode a transcode against its source stream by stream: PASS, FAIL or UNKNOWN | [postflight](docs/postflight.md) |
 | | `chapters` | Convert chapters between JSON, FFmetadata, text and Matroska XML, loss-audited | [chapters](docs/chapters.md) |
+| | `drift` | Review sync points between two drifting recordings; render a clock-corrected WAV | [drift](docs/drift.md) |
+| **Photos** | `cull` | Three-way merge of photo XMP sidecars: stars, colour labels and pick flags only | [cull](docs/cull.md) |
 
-`mediawrench <command> --help` lists every option. Each command has runnable synthetic examples in `examples/<command>/`; run the quick starts below from a clone.
+`mediawrench <command> --help` lists every option. Each command has runnable synthetic examples in `examples/<command>/`; run the quick starts below from a clone. `drift` and `cull` need an optional extra: `pip install 'mediawrench[drift]'` (NumPy, SciPy, soxr, SoundFile) or `pip install 'mediawrench[cull]'` (lxml, simplejson). Use `cutlist` before cutting (transcript cues to a cut list) and `cutsync` after cutting (carry the original sidecar SRT through the keep ranges you cut with).
 
 ## Quick start by group
 
@@ -96,6 +99,7 @@ mediawrench rollup examples/rollup/rolling.vtt -o captions.srt          # also w
 mkdir -p out
 mediawrench reflow examples/reflow/pause.json -o out/pause.srt --report out/pause.report.json
 mediawrench audacity export examples/audacity/synthetic.srt --labels out/labels.txt --sidecar out/sidecar.json
+mediawrench cutsync examples/cutsync/interview.srt --keep examples/cutsync/keep.csv -o out/interview.srt  # + out/interview.changes.json
 ```
 
 ### Transcripts & speech
@@ -118,6 +122,16 @@ mediawrench loudness out.wav --verify-only --target-i -16 --target-tp -1.5 --tol
 mediawrench postflight source.mkv output.mkv --report report.json
 mediawrench chapters convert examples/chapters/chapters.info.json out/chapters.txt \
   --from json --to text --allow-lossy --report out/text-audit.json
+python examples/drift/make_demo.py      # two drifting recordings in examples/drift/output/
+mediawrench drift analyze examples/drift/output/reference.wav examples/drift/output/target.flac \
+  --out out/review.json                 # then: anchor --accept, fit, render (docs/drift.md)
+```
+
+### Photos
+
+```sh
+mediawrench cull plan examples/cull/base.xmp examples/cull/left.xmp examples/cull/right.xmp \
+  --history-source left --format text
 ```
 
 ## FFmpeg
@@ -126,9 +140,9 @@ mediawrench runs the `ffmpeg`/`ffprobe` you installed (`apt install ffmpeg`, `br
 
 | Needs FFmpeg | Commands |
 | --- | --- |
-| Required | `loudness`, `postflight`; `qc` for its media checks (without FFmpeg they are SKIPPED and the subtitle check still runs) |
+| Required | `loudness`, `postflight`, `drift`; `qc` for its media checks (without FFmpeg they are SKIPPED and the subtitle check still runs) |
 | Optional | `chapters verify-media`, `cutlist --ffprobe` |
-| Never | `rollup`, `reflow`, `audacity`, `asr-audit`, `speakers`, `chunks` |
+| Never | `rollup`, `reflow`, `audacity`, `cutsync`, `asr-audit`, `speakers`, `chunks`, `cull` |
 
 ## How it compares
 
@@ -142,7 +156,9 @@ mediawrench checks, repairs and bridges what other tools produce. It does not en
 | WhisperX, faster-whisper, whisper.cpp | Transcription with word timestamps (WhisperX also aligns and diarizes) | Works on their JSON: readable cues from word timestamps (`reflow`), triage of repeats, loops and off-speech segments (`asr-audit`), chunking long WAVs and stitching the transcripts back (`chunks`). No model is loaded. |
 | aeneas | Forced alignment of known text to audio | Nothing comparable: mediawrench does not align audio. `reflow` starts from word timestamps you already have. |
 | pyannote.audio | Speaker diarization, RTTM output | `speakers` joins RTTM with ASR words and marks uncertain words `AMBIGUOUS` or `UNKNOWN` instead of guessing. |
-| LosslessCut | Lossless cutting in a GUI | `cutlist` turns chosen SRT cues into a LosslessCut project (`.llc`) and CSV with provenance; you still cut in LosslessCut. |
+| LosslessCut | Lossless cutting in a GUI | `cutlist` turns chosen SRT cues into a LosslessCut project (`.llc`) and CSV with provenance; you still cut in LosslessCut. `cutsync` then carries the original sidecar SRT through the keep ranges you cut with, with a per-cue change list. |
+| ChronoSync, double-ender-sync, Align | Automatic audio alignment and clock-drift correction | `drift` uses ChronoSync's matcher but makes you approve every sync point, fits one clock-rate correction and streams the corrected WAV with bounded memory. |
+| darktable, digiKam, file sync | Photo culling into XMP sidecars; whole-file sync between computers | `cull` merges two computers' sidecars against their common ancestor, field by field, for stars, colour labels and pick flags only. |
 | MKVToolNix | Matroska muxing and chapter editing | `chapters` converts chapter lists between JSON, FFmetadata, text and Matroska XML and refuses unapproved loss; `verify-media` checks the muxed file. |
 
 ## Trust and limits
@@ -153,7 +169,7 @@ mediawrench checks, repairs and bridges what other tools produce. It does not en
 - **Tested.** 1,600+ test functions; CI on Python 3.11 to 3.14 on Linux and macOS, with real FFmpeg (FFmpeg tests skip, never fake, when it is missing).
 - **Platforms.** Linux and macOS, Python 3.11+. Windows is untested.
 
-mediawrench is independent and not affiliated with FFmpeg, Audacity, LosslessCut, MKVToolNix, Subtitle Edit, OpenAI Whisper, WhisperX or pyannote. Third-party notices: [THIRD_PARTY.md](THIRD_PARTY.md). The ten commands other than `qc` were standalone tools before; `mediawrench transcode-postflight` and the other old names point to the new command.
+mediawrench is independent and not affiliated with FFmpeg, Audacity, LosslessCut, MKVToolNix, Subtitle Edit, OpenAI Whisper, WhisperX, pyannote, ChronoSync, darktable or digiKam. Third-party notices: [THIRD_PARTY.md](THIRD_PARTY.md). The thirteen commands other than `qc` were standalone tools before; `mediawrench transcode-postflight` and the other old names point to the new command.
 
 ## License
 

@@ -14,6 +14,13 @@ local `ffprobe`; an explicit video stream can also be checked against the declar
 frame rate and zero-origin assumption. Two read-only checks verify saved outputs
 later: `verify-companions` and `verify-probe-evidence`.
 
+`cutlist` works before you cut. After cutting, use [`mediawrench cutsync`](cutsync.md)
+to carry the original sidecar SRT onto the edited timeline: it takes the keep list you
+actually cut with, and this command's millisecond-mode `.llc` or CSV can be passed to
+`cutsync --keep` unchanged (frame-quantized exports only when every boundary has at most
+nine decimal places). If you adjusted the cuts in LosslessCut, pass its saved project or
+exported CSV instead.
+
 ```bash
 pip install mediawrench
 mediawrench cutlist --help

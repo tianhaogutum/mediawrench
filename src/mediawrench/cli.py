@@ -30,7 +30,7 @@ class Command:
     binaries: tuple[str, ...] = ()
 
 
-GROUPS = ("Subtitles & captions", "Transcripts & speech", "Audio & video files")
+GROUPS = ("Subtitles & captions", "Transcripts & speech", "Audio & video files", "Photos")
 
 COMMANDS: tuple[Command, ...] = (
     Command("rollup", "mediawrench.rollup.cli",
@@ -41,6 +41,9 @@ COMMANDS: tuple[Command, ...] = (
             "Subtitles & captions"),
     Command("audacity", "mediawrench.audacity.cli",
             "Round-trip SRT/WebVTT timing edits through Audacity labels with a loss audit",
+            "Subtitles & captions"),
+    Command("cutsync", "mediawrench.cutsync.cli",
+            "Apply a video's keep ranges to its sidecar SRT; new SRT plus a per-cue change list",
             "Subtitles & captions"),
     Command("asr-audit", "mediawrench.asraudit.cli",
             "Flag suspicious ASR segments (repeats, loops, off-VAD speech) for human review",
@@ -66,6 +69,13 @@ COMMANDS: tuple[Command, ...] = (
     Command("chapters", "mediawrench.chapters.cli",
             "Convert chapters between JSON, FFmetadata, text and Matroska XML, loss-audited",
             "Audio & video files", binaries=("ffprobe",)),
+    Command("drift", "mediawrench.drift.cli",
+            "Review sync points between two drifting recordings; render a clock-corrected WAV",
+            "Audio & video files", extra="drift", requires=("numpy", "scipy", "soxr", "soundfile"),
+            binaries=("ffmpeg", "ffprobe")),
+    Command("cull", "mediawrench.cull.cli",
+            "Three-way merge of photo XMP sidecars: stars, colour labels and pick flags only",
+            "Photos", extra="cull", requires=("lxml", "simplejson")),
 )
 BY_NAME = {command.name: command for command in COMMANDS}
 
@@ -75,6 +85,7 @@ LEGACY = {
     "asr-evidence-audit": "asr-audit", "interview-speaker-bridge": "speakers",
     "transcript-cutlist": "cutlist", "audio-chunk-manifest": "chunks", "loudnorm-verify": "loudness",
     "transcode-postflight": "postflight", "chapter-roundtrip": "chapters",
+    "srt-cut-sync": "cutsync", "drift-review": "drift", "cullmerge": "cull",
 }
 
 
@@ -114,7 +125,7 @@ def _help_without_extra(command: Command) -> str:
 def overview() -> str:
     width = max(len(command.name) for command in COMMANDS) + 2
     lines = [
-        f"{PROG} {__version__} - offline, auditable tools for subtitles, transcripts, audio and video",
+        f"{PROG} {__version__} - offline, auditable tools for subtitles, transcripts, audio, video and photo culls",
         "",
         f"usage: {PROG} <command> [args...]",
         f"       {PROG} <command> --help",

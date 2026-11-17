@@ -7,7 +7,7 @@
 
 <p align="center">
   <strong>音频被截断、响度没达标、章节丢了——在文件发出去之前就发现。</strong><br>
-  一个离线命令行工具，覆盖字幕、转写、音频和视频：交付前质检、修复字幕、把 ASR 输出变成可读字幕。
+  一个离线命令行工具，覆盖字幕、转写、音频和视频（外加照片筛选）：交付前质检、修复字幕、把 ASR 输出变成可读字幕。
 </p>
 
 <p align="center">
@@ -76,6 +76,7 @@ uvx mediawrench qc output/master.mkv output/episode.mp4 --target-i -16 --target-
 | **字幕** | `rollup` | 把滚动式（roll-up）WebVTT 字幕修成干净的 SRT/VTT，每个词都有来源记录 | [rollup](docs/rollup.md) |
 | | `reflow` | 按行宽、时长、阅读速度，把 ASR 词级时间戳重排成可读的 SRT | [reflow](docs/reflow.md) |
 | | `audacity` | 借 Audacity 标签轨调整 SRT/WebVTT 时间，往返之后做损失审计 | [audacity](docs/audacity.md) |
+| | `cutsync` | 把剪视频时保留的区间套用到外挂 SRT 上；输出新 SRT 和逐条字幕的变更清单 | [cutsync](docs/cutsync.md) |
 | **转写与语音** | `asr-audit` | 标出可疑的 ASR 片段（重复、循环、VAD 之外的"语音"），交给人工复核 | [asr-audit](docs/asr-audit.md) |
 | | `speakers` | 把说话人分离的 RTTM 和 ASR JSON 合并成带说话人的 JSON、Markdown 或 SRT | [speakers](docs/speakers.md) |
 | | `cutlist` | 把选中的 SRT 字幕变成可审计的 LosslessCut 剪辑表、CSV 和来源记录 | [cutlist](docs/cutlist.md) |
@@ -84,8 +85,10 @@ uvx mediawrench qc output/master.mkv output/episode.mp4 --target-i -16 --target-
 | | `loudness` | 响度标准化；最终文件的 LUFS 和真峰值复测通过后才发布 | [loudness](docs/loudness.md) |
 | | `postflight` | 逐条流解码，比对转码结果和源文件：PASS、FAIL 或 UNKNOWN | [postflight](docs/postflight.md) |
 | | `chapters` | 在 JSON、FFmetadata、纯文本、Matroska XML 之间转换章节，带损失审计 | [chapters](docs/chapters.md) |
+| | `drift` | 为两段逐渐失步的录音提出同步点供人工确认，再渲染出校正时钟后的 WAV | [drift](docs/drift.md) |
+| **照片** | `cull` | 照片 XMP 附属文件的三方合并：只合并星级、颜色标签和选片标记 | [cull](docs/cull.md) |
 
-`mediawrench <命令> --help` 列出所有选项。每个命令在 `examples/<命令>/` 下都有可运行的合成示例；下面的快速开始请在克隆的仓库里运行。
+`mediawrench <命令> --help` 列出所有选项。每个命令在 `examples/<命令>/` 下都有可运行的合成示例；下面的快速开始请在克隆的仓库里运行。`drift` 和 `cull` 需要安装可选依赖：`pip install 'mediawrench[drift]'`（NumPy、SciPy、soxr、SoundFile）或 `pip install 'mediawrench[cull]'`（lxml、simplejson）。剪辑之前用 `cutlist`（把转写字幕变成剪辑表），剪辑之后用 `cutsync`（按实际保留的区间同步原来的外挂 SRT）。
 
 ## 分组快速开始
 
@@ -96,6 +99,7 @@ mediawrench rollup examples/rollup/rolling.vtt -o captions.srt          # 同时
 mkdir -p out
 mediawrench reflow examples/reflow/pause.json -o out/pause.srt --report out/pause.report.json
 mediawrench audacity export examples/audacity/synthetic.srt --labels out/labels.txt --sidecar out/sidecar.json
+mediawrench cutsync examples/cutsync/interview.srt --keep examples/cutsync/keep.csv -o out/interview.srt  # 同时写出 out/interview.changes.json
 ```
 
 ### 转写与语音
@@ -118,6 +122,16 @@ mediawrench loudness out.wav --verify-only --target-i -16 --target-tp -1.5 --tol
 mediawrench postflight source.mkv output.mkv --report report.json
 mediawrench chapters convert examples/chapters/chapters.info.json out/chapters.txt \
   --from json --to text --allow-lossy --report out/text-audit.json
+python examples/drift/make_demo.py      # 在 examples/drift/output/ 生成两段失步的录音
+mediawrench drift analyze examples/drift/output/reference.wav examples/drift/output/target.flac \
+  --out out/review.json                 # 之后：anchor --accept、fit、render（见 docs/drift.md）
+```
+
+### 照片
+
+```sh
+mediawrench cull plan examples/cull/base.xmp examples/cull/left.xmp examples/cull/right.xmp \
+  --history-source left --format text
 ```
 
 ## 关于 FFmpeg
@@ -126,9 +140,9 @@ mediawrench 调用你自己安装的 `ffmpeg`/`ffprobe`（`apt install ffmpeg`�
 
 | 是否需要 FFmpeg | 命令 |
 | --- | --- |
-| 必需 | `loudness`、`postflight`；`qc` 的媒体检查（没装时标为 SKIPPED，字幕检查照常运行） |
+| 必需 | `loudness`、`postflight`、`drift`；`qc` 的媒体检查（没装时标为 SKIPPED，字幕检查照常运行） |
 | 可选 | `chapters verify-media`、`cutlist --ffprobe` |
-| 不需要 | `rollup`、`reflow`、`audacity`、`asr-audit`、`speakers`、`chunks` |
+| 不需要 | `rollup`、`reflow`、`audacity`、`cutsync`、`asr-audit`、`speakers`、`chunks`、`cull` |
 
 ## 和现有工具的关系
 
@@ -142,7 +156,9 @@ mediawrench 负责检查、修复和衔接其他工具的产出。它不编码�
 | WhisperX、faster-whisper、whisper.cpp | 带词级时间戳的转写（WhisperX 还做对齐和说话人分离） | 处理它们输出的 JSON：按词级时间戳生成可读字幕（`reflow`），筛出重复、循环、非语音段（`asr-audit`），把长 WAV 切块再把转写拼回去（`chunks`）。不加载任何模型。 |
 | aeneas | 把已知文本强制对齐到音频 | 没有对应功能：mediawrench 不做音频对齐，`reflow` 从你已有的词级时间戳出发。 |
 | pyannote.audio | 说话人分离，输出 RTTM | `speakers` 把 RTTM 和 ASR 词合并，拿不准的词标为 `AMBIGUOUS` 或 `UNKNOWN`，不去猜。 |
-| LosslessCut | 图形界面的无损剪切 | `cutlist` 把选中的 SRT 字幕变成 LosslessCut 工程（`.llc`）和带来源记录的 CSV；剪切仍在 LosslessCut 里完成。 |
+| LosslessCut | 图形界面的无损剪切 | `cutlist` 把选中的 SRT 字幕变成 LosslessCut 工程（`.llc`）和带来源记录的 CSV；剪切仍在 LosslessCut 里完成。之后 `cutsync` 按你实际保留的区间同步原来的外挂 SRT，并给出逐条字幕的变更清单。 |
+| ChronoSync、double-ender-sync、Align | 自动音频对齐和时钟漂移校正 | `drift` 使用 ChronoSync 的匹配算法，但每个同步点都要你确认；它拟合一个时钟速率校正，并以有限内存流式写出校正后的 WAV。 |
+| darktable、digiKam、文件同步 | 把照片筛选结果写进 XMP 附属文件；在电脑之间整文件同步 | `cull` 以共同祖先为基准，逐字段合并两台电脑上的附属文件，只处理星级、颜色标签和选片标记。 |
 | MKVToolNix | Matroska 封装和章节编辑 | `chapters` 在 JSON、FFmetadata、纯文本、Matroska XML 之间转换章节，未经批准的损失一律拒绝；`verify-media` 检查封装后的文件。 |
 
 ## 可信度与局限
@@ -153,7 +169,7 @@ mediawrench 负责检查、修复和衔接其他工具的产出。它不编码�
 - **有测试。** 1,600 多个测试函数；CI 在 Linux 和 macOS 上跑 Python 3.11 到 3.14，并使用真实 FFmpeg（缺少 FFmpeg 时相关测试跳过，绝不伪造）。
 - **平台。** Linux 和 macOS，Python 3.11+。Windows 未测试。
 
-mediawrench 是独立项目，与 FFmpeg、Audacity、LosslessCut、MKVToolNix、Subtitle Edit、OpenAI Whisper、WhisperX、pyannote 均无关联。第三方声明见 [THIRD_PARTY.md](THIRD_PARTY.md)。除 `qc` 外的十个命令以前是独立工具；`mediawrench transcode-postflight` 等旧名称会提示对应的新命令。
+mediawrench 是独立项目，与 FFmpeg、Audacity、LosslessCut、MKVToolNix、Subtitle Edit、OpenAI Whisper、WhisperX、pyannote、ChronoSync、darktable、digiKam 均无关联。第三方声明见 [THIRD_PARTY.md](THIRD_PARTY.md)。除 `qc` 外的十三个命令以前是独立工具；`mediawrench transcode-postflight` 等旧名称会提示对应的新命令。
 
 ## 许可证
 

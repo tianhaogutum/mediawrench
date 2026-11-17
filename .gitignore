@@ -31,3 +31,6 @@ uv.lock
 # Demo output
 examples/*/output/
 examples/loudness/generated/
+
+# Optional upstream XMP sidecars for the cull tests, downloaded by hand (see tests/cull/fixtures/SOURCES.md)
+tests/cull/fixtures/downloaded/

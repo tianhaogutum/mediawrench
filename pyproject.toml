@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "mediawrench"
 version = "0.1.0"
-description = "Offline, auditable tools for subtitles, transcripts, audio and video: repair captions, reflow ASR words, join speakers, verify loudness and transcodes, convert chapters."
+description = "Offline, auditable tools for subtitles, transcripts, audio and video: repair captions, reflow ASR words, join speakers, verify loudness and transcodes, convert chapters, correct recorder drift; plus three-way merges of photo XMP culls."
 # README.md with repository-relative links rewritten for PyPI (see tool.hatch.metadata.hooks below).
 dynamic = ["readme"]
 requires-python = ">=3.11"
@@ -15,7 +15,7 @@ authors = [{ name = "tianhaogutum" }]
 keywords = [
     "subtitles", "srt", "webvtt", "captions", "asr", "whisper", "transcription",
     "diarization", "rttm", "ffmpeg", "loudness", "lufs", "audacity", "losslesscut",
-    "chapters", "matroska", "audio", "video",
+    "chapters", "matroska", "audio", "video", "clock-drift", "xmp", "photo-culling",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -31,6 +31,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Graphics",
     "Topic :: Multimedia :: Sound/Audio",
     "Topic :: Multimedia :: Sound/Audio :: Analysis",
     "Topic :: Multimedia :: Sound/Audio :: Conversion",
@@ -45,16 +46,46 @@ dependencies = [
     "pysubs2>=1.8.0,<2",
     # reflow: grapheme boundaries and display-cell widths
     "wcwidth>=0.9.4,<1",
+    # cutsync: SRT parsing and serialization that keeps cue text and timing-line metadata
+    "srt>=3.5.3,<4",
+    # cutsync: LosslessCut .llc projects (JSON5)
+    "json5>=0.17.3,<1",
 ]
-# FFmpeg (ffmpeg, ffprobe) is an external program, not a Python dependency: `loudness` and
-# `postflight` need it; `chapters verify-media` and `cutlist --ffprobe` use it optionally.
+# FFmpeg (ffmpeg, ffprobe) is an external program, not a Python dependency: `loudness`,
+# `postflight` and `drift` need it; `chapters verify-media` and `cutlist --ffprobe` use it optionally.
 
 [project.optional-dependencies]
-# Test runner. Besides pytest, the tests import only the standard library, core
-# dependencies (pysubs2) and the repository's own examples/ package, which is why the
-# sdist ships examples/. Tests that need real FFmpeg skip when ffmpeg/ffprobe are not
-# on PATH.
-test = ["pytest>=9.0.2"]
+# `mediawrench drift`: numerical work (NumPy; SciPy for the vendored ChronoSync GCC-PHAT),
+# streaming float-rate resampling (soxr) and WAV/RF64 output (SoundFile).
+# Install with: pip install 'mediawrench[drift]'
+drift = [
+    "numpy>=2.4.6,<3",
+    "scipy>=1.17.1,<2",
+    "soxr>=1.1.0,<2",
+    "soundfile>=0.14.0,<1",
+]
+# `mediawrench cull`: XMP parsing and serialization (lxml), report JSON (simplejson).
+# Install with: pip install 'mediawrench[cull]'
+cull = [
+    "lxml>=6.1.3,<7",
+    "simplejson>=3.20.2,<4",
+]
+# Test runner plus the optional extras, so every command is tested. Besides these, the
+# tests import only the standard library, core dependencies and the repository's own
+# examples/ package, which is why the sdist ships examples/. Tests that need real FFmpeg
+# skip when ffmpeg/ffprobe are not on PATH; the drift and cull suites skip when their
+# extra is not installed.
+test = [
+    "pytest>=9.0.2",
+    "numpy>=2.4.6,<3",
+    "scipy>=1.17.1,<2",
+    "soxr>=1.1.0,<2",
+    "soundfile>=0.14.0,<1",
+    "lxml>=6.1.3,<7",
+    "simplejson>=3.20.2,<4",
+    # property-based oracles in tests/cutsync and tests/cull (they skip without it)
+    "hypothesis>=6.170.15,<7",
+]
 
 [project.urls]
 Homepage = "https://github.com/tianhaogutum/mediawrench"
@@ -97,6 +128,7 @@ replacement = '](https://github.com/tianhaogutum/mediawrench#\1)'
 
 [tool.hatch.build.targets.wheel]
 # The tools read no packaged data files; the wheel is the Python package plus license files.
+# `drift` includes a vendored MIT subset of ChronoSync (src/mediawrench/drift/_chronosync).
 packages = ["src/mediawrench"]
 
 [tool.hatch.build.targets.sdist]
@@ -124,6 +156,7 @@ exclude = [
     ".DS_Store",
     "examples/*/output",
     "examples/loudness/generated",
+    "tests/cull/fixtures/downloaded",
 ]
 
 [tool.pytest.ini_options]
