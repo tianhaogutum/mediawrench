@@ -1,0 +1,10 @@
+// LosslessCut's native project format is JSON5, not strict JSON.
+{
+  version: 2,
+  mediaFileName: 'interview.mp4',
+  cutSegments: [
+    { start: 0, end: 2, name: 'Opening' },
+    { start: 4, end: 6, name: 'Answer' },
+    { start: 8, end: 10, name: 'Closing' },
+  ],
+}

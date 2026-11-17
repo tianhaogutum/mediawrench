@@ -1,0 +1,21 @@
+1
+00:00:00,500 --> 00:00:02,500
+<font size="36"><i>Welcome to the interview.</i></font>
+
+2
+00:00:02,800 --> 00:00:03,800
+<font size="36">This retake will be removed.</font>
+
+3
+00:00:04,000 --> 00:00:05,500
+<font size="36">你好，世界。
+Second line stays with its cue.</font>
+
+4
+00:00:05,800 --> 00:00:08,200
+<font size="36">One sentence spans the second cut.</font>
+
+5
+00:00:09,000 --> 00:00:10,000
+<font size="36">Thanks for watching.</font>
+
