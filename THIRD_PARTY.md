@@ -238,8 +238,7 @@ Notice (also retained in the installed distribution):
 
 ## mediawrench cutsync
 
-Formerly the standalone MIT project srt-cut-sync ("Copyright (c) 2026 srt-cut-sync
-contributors"). Its implementation (`src/mediawrench/cutsync/`), tests
+Formerly the standalone MIT project srt-cut-sync ("Copyright (c) 2026 tianhaogutum"). Its implementation (`src/mediawrench/cutsync/`), tests
 (`tests/cutsync/`), documentation and authored examples (`examples/cutsync/`) are
 original MIT work. It is a thin integration around `srt` and `json5`: it reuses their
 parsers and serializer unmodified (no fork or monkeypatch) and adds only the
@@ -619,7 +618,7 @@ them is copied or linked. The test runner is
 
 ## mediawrench cull
 
-Formerly the standalone MIT project cullmerge (Copyright (c) 2026 Cullmerge contributors). The
+Formerly the standalone MIT project cullmerge (Copyright (c) 2026 tianhaogutum). The
 implementation in `src/mediawrench/cull/`, its tests (`tests/cull/`), documentation and the three
 synthetic example sidecars (`examples/cull/`, generated with ExifTool 13.63 from authored metadata
 and an illustrative Camera Raw exposure value) are original MIT work. No third-party source is
