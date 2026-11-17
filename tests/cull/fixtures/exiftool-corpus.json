@@ -1,0 +1,68 @@
+{
+  "commit": "1da714924f67763b6a8a7013dd2aa1983a16f87b",
+  "files": [
+    {
+      "name": "exiftool-XMP.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP.xmp",
+      "bytes": 3790,
+      "sha256": "3ed6ed1ce6a0c611f43e290c019e260e81d1fb85733963e108faa19927b01134",
+      "expected": "supported"
+    },
+    {
+      "name": "exiftool-XMP2.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP2.xmp",
+      "bytes": 890,
+      "sha256": "446ca8e5ead129690d46895f74b457ec20cda8b5a457a509fea1059f31716363",
+      "expected": "invalid_xml"
+    },
+    {
+      "name": "exiftool-XMP3.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP3.xmp",
+      "bytes": 2402,
+      "sha256": "d55ad81cf5d4efad1dec1d86942b6ac5915086dc9f8377d4ce65a70e935b1e5f",
+      "expected": "multiple_subjects"
+    },
+    {
+      "name": "exiftool-XMP4.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP4.xmp",
+      "bytes": 2420,
+      "sha256": "bc7dfe5b02b651ee47006da08a8895aa16966f17cc58051f08c6643c7205a365",
+      "expected": "supported"
+    },
+    {
+      "name": "exiftool-XMP5.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP5.xmp",
+      "bytes": 4721,
+      "sha256": "8d9aa18366688e7d672d678cfe0dadd8bad84dffc66814b3d572a59ff2d6e855",
+      "expected": "supported"
+    },
+    {
+      "name": "exiftool-XMP6.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP6.xmp",
+      "bytes": 1668,
+      "sha256": "75ec0059b0d1f9a45fac55a8328cc112b37e3c28878fa59d435c5efc894ee246",
+      "expected": "supported"
+    },
+    {
+      "name": "exiftool-XMP7.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP7.xmp",
+      "bytes": 918,
+      "sha256": "d259d31b74bfc387593d34f86a54cc13c18a36adbe2efe7659bba9bdbd220363",
+      "expected": "supported"
+    },
+    {
+      "name": "exiftool-XMP8.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP8.xmp",
+      "bytes": 1154,
+      "sha256": "c2a9d256e6fbf1198f6cc03eada564a2937b3c0d1a9778799bf9e54859396b6a",
+      "expected": "supported"
+    },
+    {
+      "name": "exiftool-XMP9.xmp",
+      "url": "https://raw.githubusercontent.com/exiftool/exiftool/1da714924f67763b6a8a7013dd2aa1983a16f87b/t/images/XMP9.xmp",
+      "bytes": 909,
+      "sha256": "42a8943e2f9b48342347656caf3c7a9d6ad69d8bece2db252e1f1c41e7345e8e",
+      "expected": "supported"
+    }
+  ]
+}
